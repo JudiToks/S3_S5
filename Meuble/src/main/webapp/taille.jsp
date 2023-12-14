@@ -76,7 +76,11 @@
   </div>
   <div id="layoutSidenav_content">
     <main>
-
+      <h3>Insertion taille</h3>
+      <form action="insert-taille-servlet" method="post">
+        <input class="form-control" type="text" name="taille">
+        <button class="btn btn-success">Valider</button>
+      </form>
     </main>
 
     <footer class="py-4 bg-light mt-auto">

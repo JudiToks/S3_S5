@@ -76,7 +76,11 @@
   </div>
   <div id="layoutSidenav_content">
     <main>
-
+      <h3>Insertion style</h3>
+      <form action="insert-style-servlet" method="post">
+        <input class="form-control" type="text" name="style">
+        <button class="btn btn-success">Valider</button>
+      </form>
     </main>
 
     <footer class="py-4 bg-light mt-auto">
