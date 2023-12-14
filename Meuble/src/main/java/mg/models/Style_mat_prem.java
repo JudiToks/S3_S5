@@ -33,7 +33,7 @@ public class Style_mat_prem
             }
             String sql = "INSERT INTO "+this.getClass().getSimpleName().toLowerCase()+" VALUES (default, "+this.getId_style()+", "+this.getId_mat_premiere()+")";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.executeQuery();
+            preparedStatement.execute();
         }
         catch (SQLException e)
         {
