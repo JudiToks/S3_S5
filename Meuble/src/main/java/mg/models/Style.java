@@ -34,7 +34,7 @@ public class Style
             }
             String sql = "INSERT INTO "+this.getClass().getSimpleName().toLowerCase()+" VALUES (default, '"+this.getNom()+"')";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.executeQuery();
+            preparedStatement.execute();
         }
         catch (SQLException e)
         {
