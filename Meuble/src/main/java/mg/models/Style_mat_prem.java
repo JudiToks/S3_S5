@@ -4,23 +4,22 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class Style
+public class Style_mat_prem
 {
     int id_style;
-    String nom;
+    int id_mat_premiere;
 
-//    getters & setters
     public int getId_style() {
         return id_style;
     }
     public void setId_style(int id_style) {
         this.id_style = id_style;
     }
-    public String getNom() {
-        return nom;
+    public int getId_mat_premiere() {
+        return id_mat_premiere;
     }
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setId_mat_premiere(int id_mat_premiere) {
+        this.id_mat_premiere = id_mat_premiere;
     }
 
     public void insert(Connection connection) throws SQLException {
@@ -32,7 +31,7 @@ public class Style
                 connection = Connect.connectToPostgre();
                 isOuvert = true;
             }
-            String sql = "INSERT INTO "+this.getClass().getSimpleName().toLowerCase()+" VALUES (default, '"+this.getNom()+"')";
+            String sql = "INSERT INTO "+this.getClass().getSimpleName().toLowerCase()+" VALUES (default, "+this.getId_style()+", "+this.getId_mat_premiere()+")";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.executeQuery();
         }

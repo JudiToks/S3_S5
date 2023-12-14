@@ -4,17 +4,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class Style
+public class Matiere_premiere
 {
-    int id_style;
+    int id_matiere_premiere;
     String nom;
 
 //    getters & setters
-    public int getId_style() {
-        return id_style;
+    public int getId_matiere_premiere() {
+        return id_matiere_premiere;
     }
-    public void setId_style(int id_style) {
-        this.id_style = id_style;
+    public void setId_matiere_premiere(int id_matiere_premiere) {
+        this.id_matiere_premiere = id_matiere_premiere;
     }
     public String getNom() {
         return nom;

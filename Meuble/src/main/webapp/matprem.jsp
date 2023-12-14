@@ -76,7 +76,11 @@
   </div>
   <div id="layoutSidenav_content">
     <main>
-
+      <h3>Insertion matiere premiere </h3>
+      <form action="insert-matprem-servlet" method="post">
+        <input class="form-control" type="text" name="matiere">
+        <button class="btn btn-success">Valider</button>
+      </form>
     </main>
 
     <footer class="py-4 bg-light mt-auto">
