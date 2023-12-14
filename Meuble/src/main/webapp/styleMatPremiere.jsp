@@ -79,20 +79,20 @@
             <h3>Insertion style matiere premiere</h3>
             <form action="insert-stylematprem-servlet" method="post">
                 <label>Style : </label>
-                <select class="form-select">
+                <select class="form-select" name="style">
                     <option selected>Open this select menu</option>
                     <option value="1">One</option>
                     <option value="2">Two</option>
                     <option value="3">Three</option>
                 </select>
                 <label>Matiere Premiere : </label>
-                <select class="form-select">
+                <select class="form-select" name="matprem">
                     <option selected>Open this select menu</option>
                     <option value="1">One</option>
                     <option value="2">Two</option>
                     <option value="3">Three</option>
                 </select>
-                <button>Valider</button>
+                <button class="btn btn-success">Valider</button>
             </form>
         </main>
 
