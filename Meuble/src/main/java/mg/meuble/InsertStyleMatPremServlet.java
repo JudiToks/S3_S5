@@ -12,12 +12,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet(name = "insertStyleMatPremServlet", value = "/insert-stylematprem-servlet")
-public class InsertStyleMatPrem extends HttpServlet
+public class InsertStyleMatPremServlet extends HttpServlet
 {
     public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException
     {
-        String id_style = request.getParameter("");
-        String id_matprem = request.getParameter("");
+        String id_style = request.getParameter("style");
+        String id_matprem = request.getParameter("matprem");
         Style_mat_prem smp = new Style_mat_prem();
         smp.setId_style(Integer.parseInt(id_style));
         smp.setId_mat_premiere(Integer.parseInt(id_matprem));

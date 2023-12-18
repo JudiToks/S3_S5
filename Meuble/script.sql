@@ -1,3 +1,6 @@
+create database meuble;
+\c meuble
+
 create table meuble(
     id_meuble serial primary key,
     nom varchar

@@ -21,17 +21,17 @@
       <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
     </div>
   </form>
-  <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-        <li><a class="dropdown-item" href="#!">Settings</a></li>
-        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-        <li><hr class="dropdown-divider" /></li>
-        <li><a class="dropdown-item" href="#!">Logout</a></li>
-      </ul>
-    </li>
-  </ul>
+<%--  <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">--%>
+<%--    <li class="nav-item dropdown">--%>
+<%--      <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>--%>
+<%--      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">--%>
+<%--        <li><a class="dropdown-item" href="#!">Settings</a></li>--%>
+<%--        <li><a class="dropdown-item" href="#!">Activity Log</a></li>--%>
+<%--        <li><hr class="dropdown-divider" /></li>--%>
+<%--        <li><a class="dropdown-item" href="#!">Logout</a></li>--%>
+<%--      </ul>--%>
+<%--    </li>--%>
+<%--  </ul>--%>
 </nav>
 <div id="layoutSidenav">
   <div id="layoutSidenav_nav">
@@ -45,7 +45,7 @@
           </a>
           <div class="sb-sidenav-menu-heading">Insertion</div>
           <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+            <div class="sb-nav-link-icon"><i class="fa-solid fa-bed"></i></div>
             Meuble
             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
           </a>
@@ -58,7 +58,7 @@
             </nav>
           </div>
           <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+            <div class="sb-nav-link-icon"><i class="fa-solid fa-plus"></i></div>
             Details meuble
             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
           </a>
@@ -67,6 +67,11 @@
               <a class="nav-link" href="styleMatPremiere-servlet">Style matiere premiere</a>
             </nav>
           </div>
+          <div class="sb-sidenav-menu-heading">Features</div>
+          <a class="nav-link" href="composition-style-servlet">
+            <div class="sb-nav-link-icon"><i class="fa-solid fa-hammer"></i></div>
+            Composition style
+          </a>
         </div>
       </div>
       <div class="sb-sidenav-footer">
