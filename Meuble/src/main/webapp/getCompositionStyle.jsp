@@ -81,9 +81,13 @@
   </div>
   <div id="layoutSidenav_content">
     <main>
-      <h3>Insertion taille</h3>
-      <form action="insert-taille-servlet" method="post">
-        <input class="form-control" type="text" name="taille">
+      <h3>Composition d'un style de meuble</h3>
+      <form method="post" action="">
+        <label>Style : </label>
+        <select class="form-select" name="style">
+          <option value="1">Style 1</option>
+          <option value="2">Style 2</option>
+        </select>
         <button class="btn btn-success">Valider</button>
       </form>
     </main>

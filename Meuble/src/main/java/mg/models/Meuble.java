@@ -33,7 +33,6 @@ public class Meuble
                 isOuvert = true;
             }
             String sql = "INSERT INTO "+this.getClass().getSimpleName().toLowerCase()+" VALUES(default, '"+this.getNom()+"');";
-            System.out.println(sql);
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.execute();
         }

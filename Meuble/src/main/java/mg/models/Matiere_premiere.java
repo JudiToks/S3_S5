@@ -1,8 +1,8 @@
 package mg.models;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Matiere_premiere
 {
@@ -48,5 +48,77 @@ public class Matiere_premiere
                 connection.close();
             }
         }
+    }
+
+    public static List<Matiere_premiere> getAllMatierePremiere(Connection connection)
+    {
+        boolean isOuvert = false;
+        List<Matiere_premiere> valiny = new ArrayList<>();
+        String query = "select * from matiere_premiere;";
+        try
+        {
+            if (connection == null)
+            {
+                connection = Connect.connectToPostgre();
+                isOuvert = true;
+            }
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next())
+            {
+                Matiere_premiere temp = new Matiere_premiere();
+                temp.setId_matiere_premiere(resultSet.getInt("id_matiere_premiere"));
+                temp.setNom(resultSet.getString("nom"));
+                valiny.add(temp);
+            }
+            resultSet.close();
+            statement.close();
+            if (isOuvert)
+            {
+                connection.close();
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("Matiere premiere getAllMatierePremiere issues");
+            e.printStackTrace();
+        }
+        return valiny;
+    }
+
+    public static Matiere_premiere getMatierePremiereById(Connection connection, int id_matiere_premiere)
+    {
+        boolean isOuvert = false;
+        Matiere_premiere valiny = new Matiere_premiere();
+        String query = "select * from matiere_premiere where id_matiere_premiere = "+id_matiere_premiere+";";
+        try
+        {
+            if (connection == null)
+            {
+                connection = Connect.connectToPostgre();
+                isOuvert = true;
+            }
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next())
+            {
+                Matiere_premiere temp = new Matiere_premiere();
+                temp.setId_matiere_premiere(resultSet.getInt("id_matiere_premiere"));
+                temp.setNom(resultSet.getString("nom"));
+                valiny = temp;
+            }
+            resultSet.close();
+            statement.close();
+            if (isOuvert)
+            {
+                connection.close();
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("Matiere premiere getMatierePremiereById issues");
+            e.printStackTrace();
+        }
+        return valiny;
     }
 }
