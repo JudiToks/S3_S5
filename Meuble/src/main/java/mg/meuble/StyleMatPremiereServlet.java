@@ -23,6 +23,7 @@ public class StyleMatPremiereServlet extends HttpServlet
         Connection connection = Connect.connectToPostgre();
         List<Style> listStyle = Style.getAllStyle(connection);
         List<Matiere_premiere> listMatPrem = Matiere_premiere.getAllMatierePremiere(connection);
+        connection.close();
         request.setAttribute("listStyle", listStyle);
         request.setAttribute("listMatPrem", listMatPrem);
         RequestDispatcher dispatcher = request.getRequestDispatcher("styleMatPremiere.jsp");

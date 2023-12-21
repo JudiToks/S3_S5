@@ -15,7 +15,7 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <a class="navbar-brand ps-3" href="index.html">Meuble</a>
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" method="get" action="alea">
         <div class="input-group">
             <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
             <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
@@ -39,7 +39,7 @@
             <div class="sb-sidenav-menu">
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">Core</div>
-                    <a class="nav-link" href="">
+                    <a class="nav-link" href="index-servlet">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-house"></i></div>
                         Home
                     </a>
@@ -65,6 +65,7 @@
                     <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                             <a class="nav-link" href="styleMatPremiere-servlet">Style matiere premiere</a>
+                            <a class="nav-link" href="formule-servlet">Formule de fabrication</a>
                         </nav>
                     </div>
                     <div class="sb-sidenav-menu-heading">Features</div>
@@ -80,10 +81,11 @@
         </nav>
     </div>
     <div id="layoutSidenav_content">
-        <main>
-            <h3>Insertion meuble</h3>
+        <br>
+        <main class="container">
+            <h3>Insertion meuble</h3><hr>
             <form method="post" action="insertion-meuble-servlet">
-                <input class="form-control" type="text" placeholder="Nom" name="nom">
+                <input class="form-control" type="text" placeholder="Nom" name="nom" required><br>
                 <button class="btn btn-success">Valider</button>
             </form>
         </main>

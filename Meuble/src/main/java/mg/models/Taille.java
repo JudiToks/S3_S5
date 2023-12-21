@@ -1,8 +1,8 @@
 package mg.models;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Taille
 {
@@ -50,5 +50,41 @@ public class Taille
                 connection.close();
             }
         }
+    }
+
+    public static List<Taille> getAllTaille(Connection connection)
+    {
+        boolean isOuvert = false;
+        List<Taille> valiny = new ArrayList<>();
+        String query = "select * from taille;";
+        try
+        {
+            if (connection == null)
+            {
+                connection = Connect.connectToPostgre();
+                isOuvert = true;
+            }
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next())
+            {
+                Taille temp = new Taille();
+                temp.setId_taille(resultSet.getInt("id_taille"));
+                temp.setNom(resultSet.getString("nom"));
+                valiny.add(temp);
+            }
+            resultSet.close();
+            statement.close();
+            if (isOuvert)
+            {
+                connection.close();
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("Taille getAllTaille issues");
+            e.printStackTrace();
+        }
+        return valiny;
     }
 }

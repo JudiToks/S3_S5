@@ -1,4 +1,15 @@
+<%@ page import="mg.models.Style" %>
+<%@ page import="mg.models.Meuble" %>
+<%@ page import="java.util.List" %>
+<%@ page import="mg.models.Taille" %>
+<%@ page import="mg.models.Matiere_premiere" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%
+  Style style = (Style) request.getAttribute("style");
+  Meuble meuble = (Meuble) request.getAttribute("meuble");
+  List<Taille> listTaille = (List<Taille>) request.getAttribute("listTaille");
+  List<Matiere_premiere> listMatPrem = (List<Matiere_premiere>) request.getAttribute("listMatPrem");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,17 +32,17 @@
       <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
     </div>
   </form>
-<%--  <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">--%>
-<%--    <li class="nav-item dropdown">--%>
-<%--      <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>--%>
-<%--      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">--%>
-<%--        <li><a class="dropdown-item" href="#!">Settings</a></li>--%>
-<%--        <li><a class="dropdown-item" href="#!">Activity Log</a></li>--%>
-<%--        <li><hr class="dropdown-divider" /></li>--%>
-<%--        <li><a class="dropdown-item" href="#!">Logout</a></li>--%>
-<%--      </ul>--%>
-<%--    </li>--%>
-<%--  </ul>--%>
+  <%--  <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">--%>
+  <%--    <li class="nav-item dropdown">--%>
+  <%--      <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>--%>
+  <%--      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">--%>
+  <%--        <li><a class="dropdown-item" href="#!">Settings</a></li>--%>
+  <%--        <li><a class="dropdown-item" href="#!">Activity Log</a></li>--%>
+  <%--        <li><hr class="dropdown-divider" /></li>--%>
+  <%--        <li><a class="dropdown-item" href="#!">Logout</a></li>--%>
+  <%--      </ul>--%>
+  <%--    </li>--%>
+  <%--  </ul>--%>
 </nav>
 <div id="layoutSidenav">
   <div id="layoutSidenav_nav">
@@ -83,19 +94,46 @@
   <div id="layoutSidenav_content">
     <br>
     <main class="container">
-      <h3>Insertion style</h3><hr>
-      <form action="insert-style-servlet" method="post">
-        <input class="form-control" type="text" name="style" required><br>
+      <h3>Formule details</h3><hr>
+      <form action="insert-formule-servlet" method="post">
+        <div class="row">
+
+          <div class="col">
+            <label>Meuble : </label>
+            <input class="form-control" type="text" value="<%=meuble.getId_meuble()%>" name="meuble">
+            <label>Matiere Premiere : </label>
+            <% for (int i = 0; i < listMatPrem.size(); i++) { %>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="<%=listMatPrem.get(i).getId_matiere_premiere()%>" id="flexCheckDefault" name="matPrem">
+              <label class="form-check-label" for="flexCheckDefault">
+                <%=listMatPrem.get(i).getNom()%>
+              </label>
+            </div>
+            <% } %>
+          </div>
+
+          <div class="col">
+            <label>Style : </label>
+            <input class="form-control" type="text" value="<%=style.getId_style()%>" name="style">
+            <label>Quantite : </label>
+            <% for (int i = 0; i < listMatPrem.size(); i++) { %>
+              <input class="form-control" type="number" name="qte">
+            <% } %>
+          </div>
+
+          <div class="col">
+            <label>Taille : </label>
+            <select class="form-select" name="taille" required>
+              <option selected>Choose taille</option>
+              <% for (int i = 0; i < listTaille.size(); i++) { %>
+                <option value="<%=listTaille.get(i).getId_taille()%>"><%=listTaille.get(i).getNom()%></option>
+              <% } %>
+            </select>
+          </div>
+        </div>
+        <br>
         <button class="btn btn-success">Valider</button>
-      </form><hr>
-      <h4>Liste des styles :</h4><hr>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th></th>
-          </tr>
-        </thead>
-      </table>
+      </form>
     </main>
 
     <footer class="py-4 bg-light mt-auto">

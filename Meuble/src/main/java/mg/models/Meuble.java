@@ -1,8 +1,8 @@
 package mg.models;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Meuble
 {
@@ -48,5 +48,77 @@ public class Meuble
                 connection.close();
             }
         }
+    }
+
+    public static List<Meuble> getAllMeuble(Connection connection)
+    {
+        boolean isOuvert = false;
+        List<Meuble> valiny = new ArrayList<>();
+        String query = "select * from meuble;";
+        try
+        {
+            if (connection == null)
+            {
+                connection = Connect.connectToPostgre();
+                isOuvert = true;
+            }
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next())
+            {
+                Meuble temp = new Meuble();
+                temp.setId_meuble(resultSet.getInt("id_meuble"));
+                temp.setNom(resultSet.getString("nom"));
+                valiny.add(temp);
+            }
+            resultSet.close();
+            statement.close();
+            if (isOuvert)
+            {
+                connection.close();
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("Style getAllStyle issues");
+            e.printStackTrace();
+        }
+        return valiny;
+    }
+
+    public static Meuble getMeubleById(Connection connection, int id_meuble)
+    {
+        boolean isOuvert = false;
+        Meuble valiny = new Meuble();
+        String query = "select * from meuble where id_meuble = "+id_meuble+";";
+        try
+        {
+            if (connection == null)
+            {
+                connection = Connect.connectToPostgre();
+                isOuvert = true;
+            }
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next())
+            {
+                Meuble temp = new Meuble();
+                temp.setId_meuble(resultSet.getInt("id_meuble"));
+                temp.setNom(resultSet.getString("nom"));
+                valiny = temp;
+            }
+            resultSet.close();
+            statement.close();
+            if (isOuvert)
+            {
+                connection.close();
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("Meuble getMeubleById issues");
+            e.printStackTrace();
+        }
+        return valiny;
     }
 }

@@ -22,8 +22,7 @@ public class InsertStyleMatPremServlet extends HttpServlet
         smp.setId_style(Integer.parseInt(id_style));
         smp.setId_mat_premiere(Integer.parseInt(id_matprem));
         smp.insert(null);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("styleMatPremiere.jsp");
-        dispatcher.forward(request, response);
+        response.sendRedirect("styleMatPremiere-servlet");
     }
 
     @Override
