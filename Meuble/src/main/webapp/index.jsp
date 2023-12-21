@@ -39,7 +39,7 @@
       <div class="sb-sidenav-menu">
         <div class="nav">
           <div class="sb-sidenav-menu-heading">Core</div>
-          <a class="nav-link" href="">
+          <a class="nav-link" href="index-servlet">
             <div class="sb-nav-link-icon"><i class="fa-solid fa-house"></i></div>
             Home
           </a>
@@ -65,6 +65,7 @@
           <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
             <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
               <a class="nav-link" href="styleMatPremiere-servlet">Style matiere premiere</a>
+              <a class="nav-link" href="formule-servlet">Formule de fabrication</a>
             </nav>
           </div>
           <div class="sb-sidenav-menu-heading">Features</div>
@@ -80,7 +81,8 @@
     </nav>
   </div>
   <div id="layoutSidenav_content">
-    <main>
+    <br>
+    <main class="container">
 
     </main>
 

@@ -6,20 +6,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import mg.models.Style;
 
 import java.io.IOException;
-import java.util.List;
 
-@WebServlet(name = "styleServlet", value = "/style-servlet")
-public class StyleServlet extends HttpServlet
+@WebServlet(name = "indexServlet", value = "/index-servlet")
+public class IndexServlet extends HttpServlet
 {
     public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        List<Style> listStyle = Style.getAllStyle(null);
-
-        request.setAttribute("listStyle", listStyle);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("style.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
         dispatcher.forward(request, response);
     }
 

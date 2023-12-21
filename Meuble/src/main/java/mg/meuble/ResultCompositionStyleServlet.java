@@ -6,24 +6,25 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import mg.models.CompositionStyle;
 import mg.models.Connect;
-import mg.models.Style;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
-@WebServlet(name = "compositionStyleServlet", value = "/composition-style-servlet")
-public class CompositionStyleServlet extends HttpServlet
+@WebServlet(name = "resultCompositionStyleServlet", value = "/result-composition-style-servlet")
+public class ResultCompositionStyleServlet extends HttpServlet
 {
     public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException
     {
         Connection connection = Connect.connectToPostgre();
-        List<Style> listStyle = Style.getAllStyle(connection);
-        request.setAttribute("listStyle", listStyle);
+        int id_style = Integer.parseInt(request.getParameter("style"));
+        CompositionStyle compoStyle = CompositionStyle.getCompositionStyle(connection, id_style);
         connection.close();
-        RequestDispatcher dispatcher = request.getRequestDispatcher("getCompositionStyle.jsp");
+
+        request.setAttribute("compoStyle", compoStyle);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("resultatCompositionStyle.jsp");
         dispatcher.forward(request, response);
     }
 

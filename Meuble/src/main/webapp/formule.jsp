@@ -1,10 +1,10 @@
-<%@ page import="java.util.List" %>
 <%@ page import="mg.models.Style" %>
-<%@ page import="mg.models.Matiere_premiere" %>
+<%@ page import="java.util.List" %>
+<%@ page import="mg.models.Meuble" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
     List<Style> listStyle = (List<Style>) request.getAttribute("listStyle");
-    List<Matiere_premiere> listMatPrem = (List<Matiere_premiere>) request.getAttribute("listMatPrem");
+    List<Meuble> listMeuble = (List<Meuble>) request.getAttribute("listMeuble");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,17 +28,17 @@
             <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
         </div>
     </form>
-<%--    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">--%>
-<%--        <li class="nav-item dropdown">--%>
-<%--            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>--%>
-<%--            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">--%>
-<%--                <li><a class="dropdown-item" href="#!">Settings</a></li>--%>
-<%--                <li><a class="dropdown-item" href="#!">Activity Log</a></li>--%>
-<%--                <li><hr class="dropdown-divider" /></li>--%>
-<%--                <li><a class="dropdown-item" href="#!">Logout</a></li>--%>
-<%--            </ul>--%>
-<%--        </li>--%>
-<%--    </ul>--%>
+    <%--  <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">--%>
+    <%--    <li class="nav-item dropdown">--%>
+    <%--      <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>--%>
+    <%--      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">--%>
+    <%--        <li><a class="dropdown-item" href="#!">Settings</a></li>--%>
+    <%--        <li><a class="dropdown-item" href="#!">Activity Log</a></li>--%>
+    <%--        <li><hr class="dropdown-divider" /></li>--%>
+    <%--        <li><a class="dropdown-item" href="#!">Logout</a></li>--%>
+    <%--      </ul>--%>
+    <%--    </li>--%>
+    <%--  </ul>--%>
 </nav>
 <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
@@ -90,24 +90,24 @@
     <div id="layoutSidenav_content">
         <br>
         <main class="container">
-            <h3>Insertion style matiere premiere</h3><hr>
-            <form action="insert-stylematprem-servlet" method="post">
+            <h3>Creation d'une nouvelle formule</h3><hr>
+            <form method="post" action="details-formule-servlet">
                 <div class="row">
+                    <div class="col">
+                        <label>Meuble : </label>
+                        <select class="form-select" name="meuble" required>
+                            <option selected>Choose meuble</option>
+                            <% for (int i = 0; i < listMeuble.size(); i++) { %>
+                                <option value="<%=listMeuble.get(i).getId_meuble()%>"><%=listMeuble.get(i).getNom()%></option>
+                            <% } %>
+                        </select>
+                    </div>
                     <div class="col">
                         <label>Style : </label>
                         <select class="form-select" name="style" required>
                             <option selected>Choose style</option>
                             <% for (int i = 0; i < listStyle.size(); i++) { %>
                                 <option value="<%=listStyle.get(i).getId_style()%>"><%=listStyle.get(i).getNom()%></option>
-                            <% } %>
-                        </select>
-                    </div>
-                    <div class="col">
-                        <label>Matiere Premiere : </label>
-                        <select class="form-select" name="matprem" required>
-                            <option selected>Choose Matiere premiere</option>
-                            <% for (int i = 0; i < listMatPrem.size(); i++) { %>
-                                <option value="<%=listMatPrem.get(i).getId_matiere_premiere()%>"><%=listMatPrem.get(i).getNom()%></option>
                             <% } %>
                         </select>
                     </div>

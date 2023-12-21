@@ -1,4 +1,9 @@
+<%@ page import="java.util.List" %>
+<%@ page import="mg.models.Style" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%
+  List<Style> listStyle = (List<Style>) request.getAttribute("listStyle");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,7 +44,7 @@
       <div class="sb-sidenav-menu">
         <div class="nav">
           <div class="sb-sidenav-menu-heading">Core</div>
-          <a class="nav-link" href="">
+          <a class="nav-link" href="index-servlet">
             <div class="sb-nav-link-icon"><i class="fa-solid fa-house"></i></div>
             Home
           </a>
@@ -65,6 +70,7 @@
           <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
             <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
               <a class="nav-link" href="styleMatPremiere-servlet">Style matiere premiere</a>
+              <a class="nav-link" href="formule-servlet">Formule de fabrication</a>
             </nav>
           </div>
           <div class="sb-sidenav-menu-heading">Features</div>
@@ -80,14 +86,17 @@
     </nav>
   </div>
   <div id="layoutSidenav_content">
-    <main>
-      <h3>Composition d'un style de meuble</h3>
-      <form method="post" action="">
+    <br>
+    <main class="container">
+      <h3>Composition d'un style de meuble</h3><hr>
+      <form method="post" action="result-composition-style-servlet">
         <label>Style : </label>
-        <select class="form-select" name="style">
-          <option value="1">Style 1</option>
-          <option value="2">Style 2</option>
-        </select>
+        <select class="form-select" name="style" required>
+          <option selected>Choose style</option>
+          <% for (int i = 0; i < listStyle.size(); i++) { %>
+            <option value="<%=listStyle.get(i).getId_style()%>"><%=listStyle.get(i).getNom()%></option>
+          <% } %>
+        </select><br>
         <button class="btn btn-success">Valider</button>
       </form>
     </main>
