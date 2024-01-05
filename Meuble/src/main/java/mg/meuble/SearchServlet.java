@@ -6,30 +6,29 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import mg.models.Connect;
-import mg.models.Meuble;
-import mg.models.Style;
+import mg.models.Produit;
+import mg.models.ResultRechercheMatPrem;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "formuleServlet", value = "/formule-servlet")
-public class FormuleServlet extends HttpServlet
+@WebServlet(name = "searchServlet", value = "/search-servlet")
+public class SearchServlet extends HttpServlet
 {
     public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException
     {
         try
         {
-            Connection connection = Connect.connectToPostgre();
-            List<Style> listStyle = Style.getAllStyle(connection);
-            List<Meuble> listMeuble = Meuble.getAllMeuble(connection);
-            connection.close();
+            List<Produit> listProduit = Produit.getAllProduit(null);
+            request.setAttribute("listProduit", listProduit);
 
-            request.setAttribute("listStyle", listStyle);
-            request.setAttribute("listMeuble", listMeuble);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("formule.jsp");
+            String search = request.getParameter("search");
+            List<ResultRechercheMatPrem> searchList = ResultRechercheMatPrem.getRechercheMatPrem(null, search);
+            request.setAttribute("listSearch", searchList);
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher("resultatSearch.jsp");
             dispatcher.forward(request, response);
         }
         catch (Exception e)

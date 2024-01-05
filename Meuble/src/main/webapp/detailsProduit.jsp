@@ -1,8 +1,11 @@
-<%@ page import="mg.models.Produit" %>
 <%@ page import="java.util.List" %>
+<%@ page import="mg.models.*" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
   List<Produit> listProduit = (List<Produit>) request.getAttribute("listProduit");
+  Produit produit = (Produit) request.getAttribute("produit");
+  List<Taille> listTaille = (List<Taille>) request.getAttribute("listTaille");
+  List<Matiere_premiere> listMatPrem = (List<Matiere_premiere>) request.getAttribute("listMatPrem");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,23 +23,23 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
   <a class="navbar-brand ps-3" href="index.html">Meuble</a>
   <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-  <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" method="get" action="alea">
+  <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
     <div class="input-group">
-      <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" name="search"/>
+      <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
       <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
     </div>
   </form>
-<%--  <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">--%>
-<%--    <li class="nav-item dropdown">--%>
-<%--      <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>--%>
-<%--      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">--%>
-<%--        <li><a class="dropdown-item" href="#!">Settings</a></li>--%>
-<%--        <li><a class="dropdown-item" href="#!">Activity Log</a></li>--%>
-<%--        <li><hr class="dropdown-divider" /></li>--%>
-<%--        <li><a class="dropdown-item" href="#!">Logout</a></li>--%>
-<%--      </ul>--%>
-<%--    </li>--%>
-<%--  </ul>--%>
+  <%--  <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">--%>
+  <%--    <li class="nav-item dropdown">--%>
+  <%--      <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>--%>
+  <%--      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">--%>
+  <%--        <li><a class="dropdown-item" href="#!">Settings</a></li>--%>
+  <%--        <li><a class="dropdown-item" href="#!">Activity Log</a></li>--%>
+  <%--        <li><hr class="dropdown-divider" /></li>--%>
+  <%--        <li><a class="dropdown-item" href="#!">Logout</a></li>--%>
+  <%--      </ul>--%>
+  <%--    </li>--%>
+  <%--  </ul>--%>
 </nav>
 <div id="layoutSidenav">
   <div id="layoutSidenav_nav">
@@ -96,9 +99,50 @@
   <div id="layoutSidenav_content">
     <br>
     <main class="container">
-      <h3>Insertion taille</h3><hr>
-      <form action="insert-taille-servlet" method="post">
-        <input class="form-control" type="text" name="taille" required><br>
+      <h3>Formule details</h3><hr>
+      <form action="insert-details-produit-servlet" method="post">
+        <div class="row">
+
+          <div class="col">
+            <label>Meuble : </label>
+            <input class="form-control" type="text" value="<%=produit.getNom()%>">
+            <input type="hidden" value="<%=produit.getId_produit()%>" name="id_produit">
+            <br>
+            <label>Matiere Premiere : </label>
+            <% for (int i = 0; i < listMatPrem.size(); i++) { %>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="<%=listMatPrem.get(i).getId_matiere_premiere()%>" id="flexCheckDefault" name="matPrem">
+              <label class="form-check-label" for="flexCheckDefault">
+                <%=listMatPrem.get(i).getNom()%>
+              </label>
+            </div>
+            <% } %>
+          </div>
+
+          <div class="col">
+            <label>Taille : </label>
+            <select class="form-select" name="taille" required>
+              <option selected>Choose taille</option>
+              <% for (int i = 0; i < listTaille.size(); i++) { %>
+              <option value="<%=listTaille.get(i).getId_taille()%>"><%=listTaille.get(i).getNom()%></option>
+              <% } %>
+            </select>
+            <br>
+            <label>Quantite : </label>
+            <% for (int i = 0; i < listMatPrem.size(); i++) { %>
+              <div class="row">
+                <div class="col-3">
+                  <%=listMatPrem.get(i).getNom()%>:
+                </div>
+                <div class="col">
+                  <input class="form-control" type="number" name="qte"><br>
+                </div>
+              </div>
+            <% } %>
+          </div>
+
+        </div>
+        <br>
         <button class="btn btn-success">Valider</button>
       </form>
       <form method="get" action="details-produit-servlet">

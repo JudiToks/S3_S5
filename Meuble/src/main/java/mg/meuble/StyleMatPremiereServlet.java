@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import mg.models.Connect;
 import mg.models.Matiere_premiere;
+import mg.models.Produit;
 import mg.models.Style;
 
 import java.io.IOException;
@@ -21,6 +22,9 @@ public class StyleMatPremiereServlet extends HttpServlet
     public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException
     {
         Connection connection = Connect.connectToPostgre();
+        List<Produit> listProduit = Produit.getAllProduit(connection);
+        request.setAttribute("listProduit", listProduit);
+
         List<Style> listStyle = Style.getAllStyle(connection);
         List<Matiere_premiere> listMatPrem = Matiere_premiere.getAllMatierePremiere(connection);
         connection.close();

@@ -4,17 +4,19 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Meuble
+public class Produit
 {
-    int id_meuble;
+    int id_produit;
     String nom;
+    int id_meuble;
+    int id_style;
 
 //    getters & setters
-    public int getId_meuble() {
-        return id_meuble;
+    public int getId_produit() {
+        return id_produit;
     }
-    public void setId_meuble(int id_meuble) {
-        this.id_meuble = id_meuble;
+    public void setId_produit(int id_produit) {
+        this.id_produit = id_produit;
     }
     public String getNom() {
         return nom;
@@ -22,8 +24,31 @@ public class Meuble
     public void setNom(String nom) {
         this.nom = nom;
     }
+    public int getId_meuble() {
+        return id_meuble;
+    }
+    public void setId_meuble(int id_meuble) {
+        this.id_meuble = id_meuble;
+    }
+    public int getId_style() {
+        return id_style;
+    }
+    public void setId_style(int id_style) {
+        this.id_style = id_style;
+    }
 
-    public void insert(Connection connection) throws SQLException {
+//    contructor
+    public Produit() {}
+    public Produit(int id_produit, String nom, int id_meuble, int id_style) {
+        this.id_produit = id_produit;
+        this.nom = nom;
+        this.id_meuble = id_meuble;
+        this.id_style = id_style;
+    }
+
+//    function
+    public void insert(Connection connection) throws SQLException
+    {
         boolean isOuvert = false;
         try
         {
@@ -32,7 +57,7 @@ public class Meuble
                 connection = Connect.connectToPostgre();
                 isOuvert = true;
             }
-            String sql = "INSERT INTO "+this.getClass().getSimpleName().toLowerCase()+" VALUES(default, '"+this.getNom()+"');";
+            String sql = "INSERT INTO "+this.getClass().getSimpleName().toLowerCase()+" VALUES (default, '"+this.getNom()+"', "+this.getId_meuble()+", "+this.getId_style()+");";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.execute();
         }
@@ -50,11 +75,11 @@ public class Meuble
         }
     }
 
-    public static List<Meuble> getAllMeuble(Connection connection)
+    public static List<Produit> getAllProduit(Connection connection)
     {
         boolean isOuvert = false;
-        List<Meuble> valiny = new ArrayList<>();
-        String query = "select * from meuble;";
+        List<Produit> valiny = new ArrayList<>();
+        String query = "select * from produit;";
         try
         {
             if (connection == null)
@@ -66,9 +91,11 @@ public class Meuble
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next())
             {
-                Meuble temp = new Meuble();
-                temp.setId_meuble(resultSet.getInt("id_meuble"));
+                Produit temp = new Produit();
+                temp.setId_produit(resultSet.getInt("id_produit"));
                 temp.setNom(resultSet.getString("nom"));
+                temp.setId_meuble(resultSet.getInt("id_meuble"));
+                temp.setId_style(resultSet.getInt("id_style"));
                 valiny.add(temp);
             }
             resultSet.close();
@@ -80,17 +107,17 @@ public class Meuble
         }
         catch (Exception e)
         {
-            System.out.println("Meuble getAllProduit issues");
+            System.out.println("Produit getAllProduit issues");
             e.printStackTrace();
         }
         return valiny;
     }
 
-    public static Meuble getMeubleById(Connection connection, int id_meuble)
+    public static Produit getProduitById(Connection connection, int id_produit)
     {
         boolean isOuvert = false;
-        Meuble valiny = new Meuble();
-        String query = "select * from meuble where id_meuble = "+id_meuble+";";
+        Produit valiny = new Produit();
+        String query = "select * from produit where id_produit = "+id_produit+";";
         try
         {
             if (connection == null)
@@ -102,9 +129,11 @@ public class Meuble
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next())
             {
-                Meuble temp = new Meuble();
-                temp.setId_meuble(resultSet.getInt("id_meuble"));
+                Produit temp = new Produit();
+                temp.setId_produit(resultSet.getInt("id_produit"));
                 temp.setNom(resultSet.getString("nom"));
+                temp.setId_meuble(resultSet.getInt("id_meuble"));
+                temp.setId_style(resultSet.getInt("id_style"));
                 valiny = temp;
             }
             resultSet.close();

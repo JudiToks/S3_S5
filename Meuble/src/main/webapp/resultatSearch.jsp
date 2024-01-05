@@ -1,11 +1,10 @@
 <%@ page import="java.util.List" %>
-<%@ page import="mg.models.Style" %>
-<%@ page import="mg.models.CompositionStyle" %>
 <%@ page import="mg.models.Produit" %>
+<%@ page import="mg.models.ResultRechercheMatPrem" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
     List<Produit> listProduit = (List<Produit>) request.getAttribute("listProduit");
-    CompositionStyle compoStyle = (CompositionStyle) request.getAttribute("compoStyle");
+    List<ResultRechercheMatPrem> searchList = (List<ResultRechercheMatPrem>) request.getAttribute("listSearch");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -99,23 +98,28 @@
     <div id="layoutSidenav_content">
         <br>
         <main class="container">
-            <h3>Composition d'un style de meuble</h3><hr>
-            <table class="table table-bordered">
+            <h4>Resultats du recherche :</h4><hr>
+            <table class="table table-striped">
                 <thead>
-                    <tr>
-                        <th>Style</th>
-                        <th>Matiere premiere</th>
-                    </tr>
+                <tr>
+                    <th>Produit</th>
+                    <th>Taille</th>
+                    <th>Matiere premiere</th>
+                    <th>Quantite</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <% for (int i = 0; i < compoStyle.getListMatPrem().size(); i++) { %>
-                        <tr>
-                            <td><%=compoStyle.getStyle()%></td>
-                            <td><%=compoStyle.getListMatPrem().get(i).getNom()%></td>
-                        </tr>
-                    <% } %>
+                <% for (int i = 0; i < searchList.size(); i++) { %>
+                <tr>
+                    <td><%=searchList.get(i).getNom_produit()%></td>
+                    <td><%=searchList.get(i).getTaille()%></td>
+                    <td><%=searchList.get(i).getMat_prem()%></td>
+                    <td><%=searchList.get(i).getQte()%></td>
+                </tr>
+                <% } %>
                 </tbody>
             </table>
+        <%--  modal  --%>
             <form method="get" action="details-produit-servlet">
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
