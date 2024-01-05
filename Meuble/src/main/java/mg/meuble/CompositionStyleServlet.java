@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import mg.models.Connect;
+import mg.models.Produit;
 import mg.models.Style;
 
 import java.io.IOException;
@@ -22,6 +23,8 @@ public class CompositionStyleServlet extends HttpServlet
         Connection connection = Connect.connectToPostgre();
         List<Style> listStyle = Style.getAllStyle(connection);
         request.setAttribute("listStyle", listStyle);
+        List<Produit> listProduit = Produit.getAllProduit(connection);
+        request.setAttribute("listProduit", listProduit);
         connection.close();
         RequestDispatcher dispatcher = request.getRequestDispatcher("getCompositionStyle.jsp");
         dispatcher.forward(request, response);

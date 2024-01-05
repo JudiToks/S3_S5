@@ -1,14 +1,8 @@
-<%@ page import="mg.models.Style" %>
-<%@ page import="mg.models.Meuble" %>
 <%@ page import="java.util.List" %>
-<%@ page import="mg.models.Taille" %>
-<%@ page import="mg.models.Matiere_premiere" %>
+<%@ page import="mg.models.Produit" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
-  Style style = (Style) request.getAttribute("style");
-  Meuble meuble = (Meuble) request.getAttribute("meuble");
-  List<Taille> listTaille = (List<Taille>) request.getAttribute("listTaille");
-  List<Matiere_premiere> listMatPrem = (List<Matiere_premiere>) request.getAttribute("listMatPrem");
+  List<Produit> listProduit = (List<Produit>) request.getAttribute("listProduit");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,14 +70,22 @@
           <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
             <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
               <a class="nav-link" href="styleMatPremiere-servlet">Style matiere premiere</a>
-              <a class="nav-link" href="formule-servlet">Formule de fabrication</a>
+              <a class="nav-link" href="produit-servlet">Produit</a>
+              <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Details du produit</a>
             </nav>
           </div>
           <div class="sb-sidenav-menu-heading">Features</div>
-          <a class="nav-link" href="composition-style-servlet">
-            <div class="sb-nav-link-icon"><i class="fa-solid fa-hammer"></i></div>
-            Composition style
+          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages2" aria-expanded="false" aria-controls="collapsePages2">
+            <div class="sb-nav-link-icon"><i class="fa-solid fa-gears"></i></div>
+            Fonctionnalite
+            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
           </a>
+          <div class="collapse" id="collapsePages2" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages2">
+              <a class="nav-link" href="composition-style-servlet">Composition style</a>
+              <a class="nav-link" href="recherche-mat-prem-servlet">Recherche produit mat prem</a>
+            </nav>
+          </div>
         </div>
       </div>
       <div class="sb-sidenav-footer">
@@ -94,45 +96,42 @@
   <div id="layoutSidenav_content">
     <br>
     <main class="container">
-      <h3>Formule details</h3><hr>
-      <form action="insert-formule-servlet" method="post">
+      <h3>Recherche des produits utilisant une matiere premiere :</h3><hr>
+      <form method="get" action="search-servlet">
         <div class="row">
-
-          <div class="col">
-            <label>Meuble : </label>
-            <input class="form-control" type="text" value="<%=meuble.getId_meuble()%>" name="meuble">
-            <label>Matiere Premiere : </label>
-            <% for (int i = 0; i < listMatPrem.size(); i++) { %>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="<%=listMatPrem.get(i).getId_matiere_premiere()%>" id="flexCheckDefault" name="matPrem">
-              <label class="form-check-label" for="flexCheckDefault">
-                <%=listMatPrem.get(i).getNom()%>
-              </label>
-            </div>
-            <% } %>
+          <div class="col-10">
+            <input class="form-control" type="text" placeholder="Matiere premiere a chercher" name="search" required><br>
           </div>
-
-          <div class="col">
-            <label>Style : </label>
-            <input class="form-control" type="text" value="<%=style.getId_style()%>" name="style">
-            <label>Quantite : </label>
-            <% for (int i = 0; i < listMatPrem.size(); i++) { %>
-              <input class="form-control" type="number" name="qte">
-            <% } %>
-          </div>
-
-          <div class="col">
-            <label>Taille : </label>
-            <select class="form-select" name="taille" required>
-              <option selected>Choose taille</option>
-              <% for (int i = 0; i < listTaille.size(); i++) { %>
-                <option value="<%=listTaille.get(i).getId_taille()%>"><%=listTaille.get(i).getNom()%></option>
-              <% } %>
-            </select>
+          <div class="col-2">
+            <button style="width: 100%" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
           </div>
         </div>
-        <br>
-        <button class="btn btn-success">Valider</button>
+      </form>
+
+<%--      modal     --%>
+      <form method="get" action="details-produit-servlet">
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Choix du produit</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <select class="form-select" name="produit">
+                  <option>Choose product</option>
+                  <% for (int i = 0; i < listProduit.size(); i++) { %>
+                    <option value="<%=listProduit.get(i).getId_produit()%>"><%=listProduit.get(i).getNom()%></option>
+                  <% } %>
+                </select>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button class="btn btn-primary">Valider</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </form>
     </main>
 

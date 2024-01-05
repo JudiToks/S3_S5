@@ -1,4 +1,9 @@
+<%@ page import="mg.models.Produit" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%
+    List<Produit> listProduit = (List<Produit>) request.getAttribute("listProduit");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +20,7 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <a class="navbar-brand ps-3" href="index.html">Meuble</a>
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" method="get" action="alea">
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" method="get" action="recherche-mat-prem-servlet">
         <div class="input-group">
             <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
             <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
@@ -65,14 +70,22 @@
                     <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                             <a class="nav-link" href="styleMatPremiere-servlet">Style matiere premiere</a>
-                            <a class="nav-link" href="formule-servlet">Formule de fabrication</a>
+                            <a class="nav-link" href="produit-servlet">Produit</a>
+                            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Details du produit</a>
                         </nav>
                     </div>
                     <div class="sb-sidenav-menu-heading">Features</div>
-                    <a class="nav-link" href="composition-style-servlet">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-hammer"></i></div>
-                        Composition style
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages2" aria-expanded="false" aria-controls="collapsePages2">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-gears"></i></div>
+                        Fonctionnalite
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
+                    <div class="collapse" id="collapsePages2" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages2">
+                            <a class="nav-link" href="composition-style-servlet">Composition style</a>
+                            <a class="nav-link" href="recherche-mat-prem-servlet">Recherche produit mat prem</a>
+                        </nav>
+                    </div>
                 </div>
             </div>
             <div class="sb-sidenav-footer">
@@ -87,6 +100,30 @@
             <form method="post" action="insertion-meuble-servlet">
                 <input class="form-control" type="text" placeholder="Nom" name="nom" required><br>
                 <button class="btn btn-success">Valider</button>
+            </form>
+            <form method="get" action="details-produit-servlet">
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Choix du produit</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <select class="form-select" name="produit">
+                                    <option>Choose product</option>
+                                    <% for (int i = 0; i < listProduit.size(); i++) { %>
+                                    <option value="<%=listProduit.get(i).getId_produit()%>"><%=listProduit.get(i).getNom()%></option>
+                                    <% } %>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button class="btn btn-primary">Valider</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </main>
 

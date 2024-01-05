@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import mg.models.Produit;
 import mg.models.Style;
 
 import java.io.IOException;
@@ -16,9 +17,11 @@ public class StyleServlet extends HttpServlet
 {
     public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
+        List<Produit> listProduit = Produit.getAllProduit(null);
+        request.setAttribute("listProduit", listProduit);
         List<Style> listStyle = Style.getAllStyle(null);
-
         request.setAttribute("listStyle", listStyle);
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("style.jsp");
         dispatcher.forward(request, response);
     }

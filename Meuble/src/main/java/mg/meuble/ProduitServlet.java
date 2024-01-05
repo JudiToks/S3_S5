@@ -6,34 +6,34 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import mg.models.*;
+import mg.models.Connect;
+import mg.models.Meuble;
+import mg.models.Produit;
+import mg.models.Style;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "detailsFormuleServlet", value = "/details-formule-servlet")
-public class DetailsFormuleServlet extends HttpServlet
+@WebServlet(name = "produitServlet", value = "/produit-servlet")
+public class ProduitServlet extends HttpServlet
 {
     public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException
     {
         try
         {
             Connection connection = Connect.connectToPostgre();
-            int id_style = Integer.parseInt(request.getParameter("style"));
-            int id_meuble = Integer.parseInt(request.getParameter("meuble"));
-            Style style = Style.getStyleById(connection, id_style);
-            Meuble meuble = Meuble.getMeubleById(connection, id_meuble);
-            List<Taille> listTaille = Taille.getAllTaille(connection);
-            List<Matiere_premiere> listMatPrem = CompositionStyle.getCompositionStyle(connection, id_style).getListMatPrem();
+            List<Produit> listProduit = Produit.getAllProduit(connection);
+            request.setAttribute("listProduit", listProduit);
+
+            List<Style> listStyle = Style.getAllStyle(connection);
+            List<Meuble> listMeuble = Meuble.getAllMeuble(connection);
             connection.close();
 
-            request.setAttribute("style", style);
-            request.setAttribute("meuble", meuble);
-            request.setAttribute("listTaille", listTaille);
-            request.setAttribute("listMatPrem", listMatPrem);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("detailsFormule.jsp");
+            request.setAttribute("listStyle", listStyle);
+            request.setAttribute("listMeuble", listMeuble);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("produit.jsp");
             dispatcher.forward(request, response);
         }
         catch (Exception e)

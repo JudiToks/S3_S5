@@ -11,34 +11,47 @@ import java.util.List;
 
 public class ResultRechercheMatPrem
 {
+    String nom_produit;
     String taille;
-    String meuble;
+    String mat_prem;
+    double qte;
 
+//    getters & setters
+    public String getNom_produit() {
+        return nom_produit;
+    }
+    public void setNom_produit(String nom_produit) {
+        this.nom_produit = nom_produit;
+    }
     public String getTaille() {
         return taille;
     }
-
     public void setTaille(String taille) {
         this.taille = taille;
     }
-
-    public String getMeuble() {
-        return meuble;
+    public String getMat_prem() {
+        return mat_prem;
+    }
+    public void setMat_prem(String mat_prem) {
+        this.mat_prem = mat_prem;
+    }
+    public double getQte() {
+        return qte;
+    }
+    public void setQte(double qte) {
+        this.qte = qte;
     }
 
-    public void setMeuble(String meuble) {
-        this.meuble = meuble;
-    }
-
+//    function
     public static List<ResultRechercheMatPrem> getRechercheMatPrem(Connection connection, String search)
     {
         boolean isOuvert = false;
         List<ResultRechercheMatPrem> valiny = new ArrayList<>();
-        String query = "select taille.nom, meuble.nom from formule_fabrication\n" +
-                "    join taille on taille.id_taille = formule_fabrication.id_taille\n" +
-                "    join meuble on meuble.id_meuble = formule_fabrication.id_meuble\n" +
-                "    join style_mat_prem on style_mat_prem.id_style_mat_prem = formule_fabrication.id_style_matprem\n" +
-                "                  where formule_fabrication.id_style_matprem = (select id_style_mat_prem from style_mat_prem where id_matiere_premiere = (select id_matiere_premiere from matiere_premiere where nom like '%"+search+"%'));";
+        String query = "select produit.nom, taille.nom, matiere_premiere.nom, details_produit.qte from details_produit\n" +
+                "    join produit on produit.id_produit = details_produit.id_produit\n" +
+                "    join taille on taille.id_taille = details_produit.id_taille\n" +
+                "    join matiere_premiere on  matiere_premiere.id_matiere_premiere = details_produit.id_matiere_premiere\n" +
+                "        where details_produit.id_matiere_premiere = (select id_matiere_premiere from matiere_premiere where LOWER(nom) like LOWER('%"+search+"%'));";
         try
         {
             if (connection == null)
@@ -51,8 +64,10 @@ public class ResultRechercheMatPrem
             while (resultSet.next())
             {
                 ResultRechercheMatPrem temp = new ResultRechercheMatPrem();
-                temp.setTaille(resultSet.getString(1));
-                temp.setMeuble(resultSet.getString(2));
+                temp.setNom_produit(resultSet.getString(1));
+                temp.setTaille(resultSet.getString(2));
+                temp.setMat_prem(resultSet.getString(3));
+                temp.setQte(resultSet.getDouble(4));
                 valiny.add(temp);
             }
             resultSet.close();
@@ -64,7 +79,7 @@ public class ResultRechercheMatPrem
         }
         catch (Exception e)
         {
-            System.out.println("alea alea issues");
+            System.out.println("RechercheMatPrem getRecherche issues");
             e.printStackTrace();
         }
         return valiny;
