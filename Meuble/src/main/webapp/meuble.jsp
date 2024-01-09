@@ -1,8 +1,10 @@
 <%@ page import="mg.models.Produit" %>
 <%@ page import="java.util.List" %>
+<%@ page import="mg.models.Meuble" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
     List<Produit> listProduit = (List<Produit>) request.getAttribute("listProduit");
+    List<Meuble> listMeuble = (List<Meuble>) request.getAttribute("listMeuble");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,6 +72,7 @@
                     <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                             <a class="nav-link" href="styleMatPremiere-servlet">Style matiere premiere</a>
+                            <a class="nav-link" href="prix-matPrem-servlet">Prix matiere premiere</a>
                             <a class="nav-link" href="produit-servlet">Produit</a>
                             <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Details du produit</a>
                         </nav>
@@ -84,6 +87,7 @@
                         <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages2">
                             <a class="nav-link" href="composition-style-servlet">Composition style</a>
                             <a class="nav-link" href="recherche-mat-prem-servlet">Recherche produit mat prem</a>
+                            <a class="nav-link" href="recherche_entre_deux_prix_servlet">Recherche entre deux prix</a>
                         </nav>
                     </div>
                 </div>
@@ -100,7 +104,24 @@
             <form method="post" action="insertion-meuble-servlet">
                 <input class="form-control" type="text" placeholder="Nom" name="nom" required><br>
                 <button class="btn btn-success">Valider</button>
-            </form>
+            </form><hr>
+            <h4>Liste des meubles :</h4><hr>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Numero</th>
+                    <th>Meuble</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% for (int i = 0; i < listMeuble.size(); i++) { %>
+                <tr>
+                    <td><%=listMeuble.get(i).getId_meuble()%></td>
+                    <td><%=listMeuble.get(i).getNom()%></td>
+                </tr>
+                <% } %>
+                </tbody>
+            </table>
             <form method="get" action="details-produit-servlet">
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -112,8 +133,10 @@
                             <div class="modal-body">
                                 <select class="form-select" name="produit">
                                     <option>Choose product</option>
-                                    <% for (int i = 0; i < listProduit.size(); i++) { %>
-                                    <option value="<%=listProduit.get(i).getId_produit()%>"><%=listProduit.get(i).getNom()%></option>
+                                    <% if (listProduit != null) { %>
+                                        <% for (int i = 0; i < listProduit.size(); i++) { %>
+                                        <option value="<%=listProduit.get(i).getId_produit()%>"><%=listProduit.get(i).getNom()%></option>
+                                        <% } %>
                                     <% } %>
                                 </select>
                             </div>
