@@ -20,8 +20,7 @@ public class InsertMatPremiereServlet extends HttpServlet
         Matiere_premiere mp = new Matiere_premiere();
         mp.setNom(nom);
         mp.insert(null);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("matprem.jsp");
-        dispatcher.forward(request, response);
+        response.sendRedirect("matPremiere-servlet");
     }
 
     @Override

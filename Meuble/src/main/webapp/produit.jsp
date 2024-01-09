@@ -74,6 +74,7 @@
                     <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                             <a class="nav-link" href="styleMatPremiere-servlet">Style matiere premiere</a>
+                            <a class="nav-link" href="prix-matPrem-servlet">Prix matiere premiere</a>
                             <a class="nav-link" href="produit-servlet">Produit</a>
                             <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Details du produit</a>
                         </nav>
@@ -88,6 +89,7 @@
                         <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages2">
                             <a class="nav-link" href="composition-style-servlet">Composition style</a>
                             <a class="nav-link" href="recherche-mat-prem-servlet">Recherche produit mat prem</a>
+                            <a class="nav-link" href="recherche_entre_deux_prix_servlet">Recherche entre deux prix</a>
                         </nav>
                     </div>
                 </div>
@@ -100,7 +102,7 @@
     <div id="layoutSidenav_content">
         <br>
         <main class="container">
-            <h3>Creation d'une nouvelle formule</h3><hr>
+            <h3>Creation d'un nouveau produit</h3><hr>
             <form method="post" action="insert-produit-servlet">
                 <div class="row">
                     <div class="col">
@@ -140,8 +142,10 @@
                             <div class="modal-body">
                                 <select class="form-select" name="produit">
                                     <option>Choose product</option>
-                                    <% for (int i = 0; i < listProduit.size(); i++) { %>
-                                    <option value="<%=listProduit.get(i).getId_produit()%>"><%=listProduit.get(i).getNom()%></option>
+                                    <% if (listProduit != null) { %>
+                                        <% for (int i = 0; i < listProduit.size(); i++) { %>
+                                            <option value="<%=listProduit.get(i).getId_produit()%>"><%=listProduit.get(i).getNom()%></option>
+                                        <% } %>
                                     <% } %>
                                 </select>
                             </div>

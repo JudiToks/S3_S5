@@ -1,30 +1,32 @@
 package mg.meuble;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import mg.models.Style;
+import mg.models.Prix_mat_prem;
+import mg.models.Produit;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(name = "insertStyleServlet", value = "/insert-style-servlet")
-public class InsertStyleServlet extends HttpServlet
+@WebServlet(name = "insertPrixMatPremServlet", value = "/insert-prix-matPrem-servlet")
+public class InsertPrixMatPremServlet extends HttpServlet
 {
     public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException
     {
-        String nom = request.getParameter("style");
-        Style style = new Style();
-        style.setNom(nom);
-        style.insert(null);
-        response.sendRedirect("style-servlet");
+        int id_matPrem = Integer.parseInt(request.getParameter("matPrem"));
+        double prix = Double.parseDouble(request.getParameter("prix"));
+        Prix_mat_prem temp = new Prix_mat_prem();
+        temp.setId_mat_prem(id_matPrem);
+        temp.setPrix(prix);
+        temp.insert(null);
+        response.sendRedirect("prix-matPrem-servlet");
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             processRequest(req, resp);
         } catch (SQLException e) {
@@ -33,7 +35,7 @@ public class InsertStyleServlet extends HttpServlet
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             processRequest(req, resp);
         } catch (SQLException e) {

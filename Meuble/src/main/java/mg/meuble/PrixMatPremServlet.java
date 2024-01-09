@@ -12,8 +12,8 @@ import mg.models.Produit;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "matPremiereServlet", value = "/matPremiere-servlet")
-public class MatPremiereServlet extends HttpServlet
+@WebServlet(name = "prixMatPremServlet", value = "/prix-matPrem-servlet")
+public class PrixMatPremServlet extends HttpServlet
 {
     public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
@@ -21,7 +21,8 @@ public class MatPremiereServlet extends HttpServlet
         request.setAttribute("listProduit", listProduit);
         List<Matiere_premiere> listMatPrem = Matiere_premiere.getAllMatierePremiere(null);
         request.setAttribute("listMatPrem", listMatPrem);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("matprem.jsp");
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("prixMatPrem.jsp");
         dispatcher.forward(request, response);
     }
 
