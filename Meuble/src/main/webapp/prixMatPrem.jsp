@@ -62,6 +62,7 @@
               <a class="nav-link" href="matPremiere-servlet">Matiere premiere</a>
               <a class="nav-link" href="style-servlet">Style de meuble</a>
               <a class="nav-link" href="taille-servlet">Taille</a>
+              <a class="nav-link" href="fournisseur-servlet">Fournisseur</a>
             </nav>
           </div>
           <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
@@ -74,6 +75,7 @@
               <a class="nav-link" href="styleMatPremiere-servlet">Style matiere premiere</a>
               <a class="nav-link" href="prix-matPrem-servlet">Prix matiere premiere</a>
               <a class="nav-link" href="produit-servlet">Produit</a>
+              <a class="nav-link" href="achat-servlet">Achat matiere premiere</a>
               <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Details du produit</a>
             </nav>
           </div>
@@ -88,6 +90,7 @@
               <a class="nav-link" href="composition-style-servlet">Composition style</a>
               <a class="nav-link" href="recherche-mat-prem-servlet">Recherche produit mat prem</a>
               <a class="nav-link" href="recherche_entre_deux_prix_servlet">Recherche entre deux prix</a>
+              <a class="nav-link" href="fabrication-servlet">Fabrication</a>
             </nav>
           </div>
         </div>

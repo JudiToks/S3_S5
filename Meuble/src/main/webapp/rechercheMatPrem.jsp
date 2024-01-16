@@ -41,56 +41,58 @@
 <div id="layoutSidenav">
   <div id="layoutSidenav_nav">
     <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-      <div class="sb-sidenav-menu">
-        <div class="nav">
-          <div class="sb-sidenav-menu-heading">Core</div>
-          <a class="nav-link" href="index-servlet">
-            <div class="sb-nav-link-icon"><i class="fa-solid fa-house"></i></div>
-            Home
-          </a>
-          <div class="sb-sidenav-menu-heading">Insertion</div>
-          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-            <div class="sb-nav-link-icon"><i class="fa-solid fa-bed"></i></div>
-            Meuble
-            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-          </a>
-          <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-            <nav class="sb-sidenav-menu-nested nav">
-              <a class="nav-link" href="meuble-servlet">Type meuble</a>
-              <a class="nav-link" href="matPremiere-servlet">Matiere premiere</a>
-              <a class="nav-link" href="style-servlet">Style de meuble</a>
-              <a class="nav-link" href="taille-servlet">Taille</a>
-            </nav>
-          </div>
-          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-            <div class="sb-nav-link-icon"><i class="fa-solid fa-plus"></i></div>
-            Details meuble
-            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-          </a>
-          <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-              <a class="nav-link" href="styleMatPremiere-servlet">Style matiere premiere</a>
-              <a class="nav-link" href="prix-matPrem-servlet">Prix matiere premiere</a>
-              <a class="nav-link" href="produit-servlet">Produit</a>
-              <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Details du produit</a>
-            </nav>
-          </div>
-          <div class="sb-sidenav-menu-heading">Features</div>
-          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages2" aria-expanded="false" aria-controls="collapsePages2">
-            <div class="sb-nav-link-icon"><i class="fa-solid fa-gears"></i></div>
-            Fonctionnalite
-            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-          </a>
-          <div class="collapse" id="collapsePages2" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages2">
-              <a class="nav-link" href="composition-style-servlet">Composition style</a>
-              <a class="nav-link" href="recherche-mat-prem-servlet">Recherche produit mat prem</a>
-              <a class="nav-link" href="recherche_entre_deux_prix_servlet">Recherche entre deux prix</a>
-            </nav>
-          </div>
+      <<div class="sb-sidenav-menu">
+      <div class="nav">
+        <div class="sb-sidenav-menu-heading">Core</div>
+        <a class="nav-link" href="index-servlet">
+          <div class="sb-nav-link-icon"><i class="fa-solid fa-house"></i></div>
+          Home
+        </a>
+        <div class="sb-sidenav-menu-heading">Insertion</div>
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+          <div class="sb-nav-link-icon"><i class="fa-solid fa-bed"></i></div>
+          Meuble
+          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+        </a>
+        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+          <nav class="sb-sidenav-menu-nested nav">
+            <a class="nav-link" href="meuble-servlet">Type meuble</a>
+            <a class="nav-link" href="matPremiere-servlet">Matiere premiere</a>
+            <a class="nav-link" href="style-servlet">Style de meuble</a>
+            <a class="nav-link" href="taille-servlet">Taille</a>
+            <a class="nav-link" href="fournisseur-servlet">Fournisseur</a>
+          </nav>
+        </div>
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+          <div class="sb-nav-link-icon"><i class="fa-solid fa-plus"></i></div>
+          Details meuble
+          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+        </a>
+        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+          <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+            <a class="nav-link" href="styleMatPremiere-servlet">Style matiere premiere</a>
+            <a class="nav-link" href="prix-matPrem-servlet">Prix matiere premiere</a>
+            <a class="nav-link" href="produit-servlet">Produit</a>
+            <a class="nav-link" href="achat-servlet">Achat matiere premiere</a>
+            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Details du produit</a>
+          </nav>
+        </div>
+        <div class="sb-sidenav-menu-heading">Features</div>
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages2" aria-expanded="false" aria-controls="collapsePages2">
+          <div class="sb-nav-link-icon"><i class="fa-solid fa-gears"></i></div>
+          Fonctionnalite
+          <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+        </a>
+        <div class="collapse" id="collapsePages2" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+          <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages2">
+            <a class="nav-link" href="composition-style-servlet">Composition style</a>
+            <a class="nav-link" href="recherche-mat-prem-servlet">Recherche produit mat prem</a>
+            <a class="nav-link" href="recherche_entre_deux_prix_servlet">Recherche entre deux prix</a>
+            <a class="nav-link" href="fabrication-servlet">Fabrication</a>
+          </nav>
         </div>
       </div>
-      <div class="sb-sidenav-footer">
+    </div>div class="sb-sidenav-footer">
         <div class="small">Logged in as:</div>
       </div>
     </nav>
