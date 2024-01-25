@@ -66,19 +66,54 @@ create table dept(
     id_dept serial primary key,
     nom varchar
 );
-create table emp_dept_horaire(
+create table emp_dept(
     id_emp_dept_horaire serial primary key,
     id_emp int references emp(id_emp),
-    id_dept int references dept(id_dept),
-    prix_horaire double precision
+    id_dept int references dept(id_dept)
 );
-create table produit_emp_horaire(
-    id_produit_emp_horaire serial primary key,
+create table dept_salaire(
+    id_dept_salaire serial primary key,
+    id_dept int references dept(id_dept),
+    salaire double precision
+);
+create table heure_travail_style(
+    id_heure_travail_style serial primary key,
+    id_style int references style(id_style),
+    heure double precision
+);
+create table taille_nbr_mpiasa(
+    id_taille_nbr_mpiasa serial primary key,
+    id_taille int references taille(id_taille),
+    nombre int
+);
+create table taille_style_dept(
+    id_taille_style_dept serial primary key,
+    id_taille int references taille(id_taille),
+    id_style int references style(id_style),
+    id_dept int references dept(id_dept),
+    nombre double precision
+);
+create table prix_vente_produit(
+    id_prix_produit serial primary key,
     id_produit int references produit(id_produit),
-    id_emp_dept_horaire int references emp_dept_horaire(id_emp_dept_horaire),
-    heure_travail double precision
+    id_taille int references taille(id_taille),
+    prix double precision
 );
 -- fin 16/01/2024
+-- debut 23/01/2024
+create table profil(
+    id_profil serial primary key,
+    nom varchar,
+    annee_travail double precision,
+    coeff double precision
+);
+create table emp_dept_embauche(
+    id_emp_dept_embauche serial primary key,
+    id_emp_dept int references emp_dept(id_emp_dept_horaire),
+    id_profil int references profil(id_profil),
+    date_embauche date
+);
+-- fin 23/01/2024
 
 select produit.nom, taille.nom, matiere_premiere.nom, details_produit.qte from details_produit
     join produit on produit.id_produit = details_produit.id_produit
@@ -92,12 +127,6 @@ CREATE OR REPLACE VIEW v_produit_prix AS SELECT p.nom, SUM(pmp.prix * dp.qte) AS
     JOIN produit p on p.id_produit = dp.id_produit
         WHERE dp.id_produit = p.id_produit
         GROUP BY p.nom;
-
-SELECT id_produit, SUM(qte * prix) AS prix_total_produit
-FROM id_details_produit
-         JOIN id_prix_mat_prem ON id_details_produit.id_matiere_premiere = id_prix_mat_prem.id_matiere_premiere
-WHERE id_produit = 1
-GROUP BY id_produit;
 
 select * from v_produit_prix where prix >= 10000 and prix <= 20000;
 
@@ -142,8 +171,85 @@ FROM DemandeMatiere e
          JOIN v_etat_stock s ON e.id_matiere_premiere = s.id_matiere_premiere;
 
 
--- select taille.nom, meuble.nom from formule_fabrication
---     join taille on taille.id_taille = formule_fabrication.id_taille
---     join meuble on meuble.id_meuble = formule_fabrication.id_meuble
---     join style_mat_prem on style_mat_prem.id_style_mat_prem = formule_fabrication.id_style_matprem
---         where formule_fabrication.id_style_matprem = (select id_style_mat_prem from style_mat_prem where id_matiere_premiere = (select id_matiere_premiere from matiere_premiere where nom like '%Tissu%'));
+create or replace view v_benefice_produit as (
+with prix_fabrication_produit as (
+    with prix_prestation as (
+        with list_all_prestation as (
+            select
+                id_taille,
+                hts.id_style,
+                ds.id_dept,
+                (((salaire * nombre) * heure) / 3600) as prestation
+            from taille_style_dept tsd
+                     join dept_salaire ds on tsd.id_dept = ds.id_dept
+                     join heure_travail_style hts on tsd.id_style = hts.id_style
+        )
+        select
+            id_taille,
+            id_style,
+            sum(prestation) as prestation
+        from list_all_prestation
+        group by id_taille, id_style
+    )
+    select
+        p.id_produit,
+        p.nom,
+        sum(pp.prestation + v_produit_prix.prix) as prix
+    from produit p
+        join prix_prestation pp on pp.id_style = p.id_style
+        join details_produit dp on dp.id_produit = p.id_produit and dp.id_taille = pp.id_taille
+        join v_produit_prix on v_produit_prix.nom = p.nom
+    group by p.nom, p.id_produit
+)
+select
+    pvp.id_produit,
+    nom,
+    (pvp.prix - pfp.prix) as benefice
+from
+    prix_vente_produit pvp
+    join prix_fabrication_produit pfp on pfp.id_produit = pvp.id_produit
+);
+
+
+select
+    *
+from emp_dept_embauche ede
+    join profil p on p.id_profil = ede.id_profil
+where (date_embauche - current_date) < 5;
+
+SELECT
+    ede.id_emp_dept,
+    e.nom AS nom_employe,
+    d.nom AS nom_departement,
+    ds.salaire AS salaire_base,
+    p.nom AS profil,
+    p.coeff AS coefficient,
+    EXTRACT(YEAR FROM AGE('2027-01-23', ede.date_embauche)) AS annee_travail,
+    ds.salaire * p.coeff AS salaire_calcule
+FROM
+    emp_dept_embauche ede
+        JOIN emp_dept ed ON ed.id_emp_dept_horaire = ede.id_emp_dept
+        JOIN emp e ON ed.id_emp = e.id_emp
+        JOIN dept d ON ed.id_dept = d.id_dept
+        JOIN dept_salaire ds ON ed.id_dept = ds.id_dept
+        JOIN profil p ON ede.id_profil = p.id_profil
+where LOWER(CONCAT(e.nom, ' ', d.nom, ' ', p.nom, ' ')) LIKE LOWER('%%');
+
+
+SELECT
+    ede.id_emp_dept,
+    e.nom AS nom_employe,
+    d.nom AS nom_departement,
+    ds.salaire AS salaire_base,
+    p.nom AS profil,
+    EXTRACT(YEAR FROM AGE('2027-01-23', ede.date_embauche)) AS annee_travail,
+    CASE
+        WHEN EXTRACT(YEAR FROM AGE('2027-01-23', ede.date_embauche)) >= p.annee_travail THEN ds.salaire * p.coeff
+        ELSE ds.salaire
+        END AS salaire_calculé
+FROM emp_dept_embauche ede
+         JOIN emp_dept ed ON ed.id_emp_dept_horaire = ede.id_emp_dept
+         JOIN emp e ON ed.id_emp = e.id_emp
+         JOIN dept d ON ed.id_dept = d.id_dept
+         JOIN dept_salaire ds ON ed.id_dept = ds.id_dept
+         JOIN profil p ON ede.id_profil = p.id_profil;
