@@ -83,11 +83,12 @@
               <a class="nav-link" href="composition-style-servlet">Composition style</a>
               <a class="nav-link" href="recherche-mat-prem-servlet">Recherche produit mat prem</a>
               <a class="nav-link" href="recherche_entre_deux_prix_servlet">Recherche entre deux prix</a>
+              <a class="nav-link" href="benefice-produit-taille-servlet">Recherche benefice entre deux prix</a>
               <a class="nav-link" href="fabrication-servlet">Fabrication</a>
             </nav>
           </div>
           <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages3" aria-expanded="false" aria-controls="collapsePages">
-            <div class="sb-nav-link-icon"><i class="fa-solid fa-plus"></i></div>
+            <div class="sb-nav-link-icon"><i class="fa-solid fa-people-group"></i></div>
             Fonctionnaire
             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
           </a>
@@ -102,6 +103,19 @@
               <a class="nav-link" href="heure-travail-style-servlet">Heure de travail par style</a>
               <a class="nav-link" href="taille-style-dept-servlet">Nombre de dept par taille et style</a>
               <a class="nav-link" href="emp-dept-profil-status-servlet">Status employee</a>
+            </nav>
+          </div>
+          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages4" aria-expanded="false" aria-controls="collapsePages">
+            <div class="sb-nav-link-icon"><i class="fa-solid fa-money-bill"></i></div>
+            Vente
+            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+          </a>
+          <div class="collapse" id="collapsePages4" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages4">
+              <a class="nav-link" href="genre-servlet">Genre</a>
+              <a class="nav-link" href="client-servlet">Client</a>
+              <a class="nav-link" href="vente-servlet">Vente</a>
+              <a class="nav-link" href="statistique-vente-servlet">Statistique de vente</a>
             </nav>
           </div>
         </div>

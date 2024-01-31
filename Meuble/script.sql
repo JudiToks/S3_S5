@@ -114,6 +114,25 @@ create table emp_dept_embauche(
     date_embauche date
 );
 -- fin 23/01/2024
+-- debut 25/01/2024
+create table genre(
+    id_genre serial primary key,
+    nom varchar
+);
+create table client(
+    id_client serial primary key,
+    nom varchar,
+    prenom varchar,
+    dtn date,
+    id_genre int references genre(id_genre)
+);
+create table vente(
+    id_vente serial primary key,
+    id_produit int references produit(id_produit),
+    id_client int references client(id_client),
+    nbr int
+);
+-- fin 25/01/2024
 
 select produit.nom, taille.nom, matiere_premiere.nom, details_produit.qte from details_produit
     join produit on produit.id_produit = details_produit.id_produit
@@ -193,29 +212,26 @@ with prix_fabrication_produit as (
     )
     select
         p.id_produit,
-        p.nom,
+        p.nom as produit,
+        t.id_taille,
+        t.nom as taille,
         sum(pp.prestation + v_produit_prix.prix) as prix
     from produit p
         join prix_prestation pp on pp.id_style = p.id_style
-        join details_produit dp on dp.id_produit = p.id_produit and dp.id_taille = pp.id_taille
+        join details_produit dp on dp.id_produit = p.id_produit
         join v_produit_prix on v_produit_prix.nom = p.nom
-    group by p.nom, p.id_produit
+        join taille t on t.id_taille = pp.id_taille
+    group by p.id_produit, p.nom, t.id_taille, t.nom
 )
 select
-    pvp.id_produit,
-    nom,
+    pfp.produit,
+    pfp.taille,
     (pvp.prix - pfp.prix) as benefice
 from
     prix_vente_produit pvp
-    join prix_fabrication_produit pfp on pfp.id_produit = pvp.id_produit
+        join prix_fabrication_produit pfp on pfp.id_produit = pvp.id_produit and pfp.id_taille = pvp.id_taille
 );
 
-
-select
-    *
-from emp_dept_embauche ede
-    join profil p on p.id_profil = ede.id_profil
-where (date_embauche - current_date) < 5;
 
 SELECT
     ede.id_emp_dept,
@@ -235,21 +251,71 @@ FROM
         JOIN profil p ON ede.id_profil = p.id_profil
 where LOWER(CONCAT(e.nom, ' ', d.nom, ' ', p.nom, ' ')) LIKE LOWER('%%');
 
+-- getAllStati
+select
+    p.nom as produit,
+    g.nom as genre,
+    sum(nbr) as nombre
+from vente v
+    join client c on c.id_client = v.id_client
+    join genre g on g.id_genre = c.id_genre
+    join produit p on p.id_produit = v.id_produit
+group by p.nom, g.nom;
+
+select
+    p.nom as produit,
+    g.nom as genre,
+    sum(nbr) as nombre
+from vente v
+         join client c on c.id_client = v.id_client
+         join genre g on g.id_genre = c.id_genre
+         join produit p on p.id_produit = v.id_produit
+group by p.nom, g.nom;
+
 
 SELECT
-    ede.id_emp_dept,
-    e.nom AS nom_employe,
-    d.nom AS nom_departement,
-    ds.salaire AS salaire_base,
-    p.nom AS profil,
-    EXTRACT(YEAR FROM AGE('2027-01-23', ede.date_embauche)) AS annee_travail,
-    CASE
-        WHEN EXTRACT(YEAR FROM AGE('2027-01-23', ede.date_embauche)) >= p.annee_travail THEN ds.salaire * p.coeff
-        ELSE ds.salaire
-        END AS salaire_calculé
-FROM emp_dept_embauche ede
-         JOIN emp_dept ed ON ed.id_emp_dept_horaire = ede.id_emp_dept
-         JOIN emp e ON ed.id_emp = e.id_emp
-         JOIN dept d ON ed.id_dept = d.id_dept
-         JOIN dept_salaire ds ON ed.id_dept = ds.id_dept
-         JOIN profil p ON ede.id_profil = p.id_profil;
+    p.id_produit,
+    p.nom AS nom_produit,
+    g.nom AS nom_genre,
+    sum(nbr) AS nombre_ventes
+FROM
+    vente v
+        JOIN produit p ON v.id_produit = p.id_produit
+        JOIN client c ON v.id_client = c.id_client
+        JOIN genre g ON c.id_genre = g.id_genre
+GROUP BY
+    p.id_produit, g.id_genre, nbr
+ORDER BY
+    p.id_produit, g.id_genre;
+
+
+with list_genre_nbr as (
+    SELECT
+        g.id_genre,
+        g.nom,
+        sum(nbr) AS nombre_ventes
+    FROM
+        vente v
+            JOIN produit p ON v.id_produit = p.id_produit
+            JOIN client c ON v.id_client = c.id_client
+            JOIN genre g ON c.id_genre = g.id_genre
+    GROUP BY
+        g.id_genre, nbr
+    ORDER BY
+        g.id_genre
+)
+select
+    id_genre,
+    nom,
+    sum(nombre_ventes)
+from
+    list_genre_nbr
+group by id_genre, nom
+order by id_genre;
+
+
+select
+    nom,
+    stock_actuel
+from v_etat_stock ves
+    join matiere_premiere mp on ves.id_matiere_premiere = mp.id_matiere_premiere;

@@ -6,14 +6,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import mg.models.*;
+import mg.models.Client;
+import mg.models.Connect;
+import mg.models.Genre;
+import mg.models.Produit;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
 
-@WebServlet(name = "achatServlet", value = "/achat-servlet")
-public class AchatServlet extends HttpServlet
+@WebServlet(name = "venteServlet", value = "/vente-servlet")
+public class VenteServlet extends HttpServlet
 {
     public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
@@ -23,23 +26,18 @@ public class AchatServlet extends HttpServlet
 
             List<Produit> listProduit = Produit.getAllProduit(connection);
             request.setAttribute("listProduit", listProduit);
-
-            List<Fournisseur> listFournisseur = Fournisseur.getAllFournisseur(connection);
-            List<Matiere_premiere> listMatPrem = Matiere_premiere.getAllMatierePremiere(connection);
-            request.setAttribute("listFournisseur", listFournisseur);
-            request.setAttribute("listMatPrem", listMatPrem);
-
-            List<Achat> listStock = Achat.getStockActuelle(connection);
-            request.setAttribute("stock", listStock);
+            List<Client> listClient = Client.getAllClient(connection);
+            request.setAttribute("listClient", listClient);
 
             connection.close();
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("achat.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("vente.jsp");
             dispatcher.forward(request, response);
         }
         catch (Exception e)
         {
             e.printStackTrace();
+            e.getMessage();
         }
     }
 
