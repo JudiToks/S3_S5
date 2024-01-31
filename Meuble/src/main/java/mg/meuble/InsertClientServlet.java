@@ -6,14 +6,19 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import mg.models.*;
+import mg.models.Client;
+import mg.models.Connect;
+import mg.models.Genre;
+import mg.models.Produit;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
-@WebServlet(name = "achatServlet", value = "/achat-servlet")
-public class AchatServlet extends HttpServlet
+@WebServlet(name = "insertClientServlet", value = "/insert-client-servlet")
+public class InsertClientServlet extends HttpServlet
 {
     public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
@@ -21,25 +26,29 @@ public class AchatServlet extends HttpServlet
         {
             Connection connection = Connect.connectToPostgre();
 
-            List<Produit> listProduit = Produit.getAllProduit(connection);
-            request.setAttribute("listProduit", listProduit);
+            String nom = request.getParameter("nom");
+            String prenom = request.getParameter("prenom");
+            String dateString = request.getParameter("date");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date utilDate = dateFormat.parse(dateString);
+            Date sqlDate = new Date(utilDate.getTime());
+            int id_genre = Integer.parseInt(request.getParameter("genre"));
 
-            List<Fournisseur> listFournisseur = Fournisseur.getAllFournisseur(connection);
-            List<Matiere_premiere> listMatPrem = Matiere_premiere.getAllMatierePremiere(connection);
-            request.setAttribute("listFournisseur", listFournisseur);
-            request.setAttribute("listMatPrem", listMatPrem);
-
-            List<Achat> listStock = Achat.getStockActuelle(connection);
-            request.setAttribute("stock", listStock);
+            Client temp = new Client();
+            temp.setNom(nom);
+            temp.setPrenom(prenom);
+            temp.setDtn(sqlDate);
+            temp.setId_genre(id_genre);
+            temp.insert(connection);
 
             connection.close();
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("achat.jsp");
-            dispatcher.forward(request, response);
+            response.sendRedirect("client-servlet");
         }
         catch (Exception e)
         {
             e.printStackTrace();
+            e.getMessage();
         }
     }
 

@@ -28,8 +28,8 @@ public class ResultRechercheEntreDeuxPrix
     {
         boolean isOuvert = false;
         List<ResultRechercheEntreDeuxPrix> valiny = new ArrayList<>();
-//        String query = "select * from v_produit_prix where prix >= "+prix1+" and prix <= "+prix2+";";
-        String query = "select * from v_benefice_produit  where benefice >= "+prix1+" and benefice <= "+prix2+";";
+        String query = "select * from v_produit_prix where prix >= "+prix1+" and prix <= "+prix2+";";
+//        String query = "select * from v_benefice_produit  where benefice >= "+prix1+" and benefice <= "+prix2+";";
         try
         {
             if (connection == null)
@@ -42,8 +42,8 @@ public class ResultRechercheEntreDeuxPrix
             while (resultSet.next())
             {
                 ResultRechercheEntreDeuxPrix temp = new ResultRechercheEntreDeuxPrix();
-                temp.setNom(resultSet.getString(2));
-                temp.setPrix(resultSet.getDouble(3));
+                temp.setNom(resultSet.getString(1));
+                temp.setPrix(resultSet.getDouble(2));
                 valiny.add(temp);
             }
             resultSet.close();

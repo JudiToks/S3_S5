@@ -1,65 +1,45 @@
 <%@ page import="java.util.List" %>
 <%@ page import="mg.models.Produit" %>
-<%@ page import="mg.models.Fournisseur" %>
-<%@ page import="mg.models.Matiere_premiere" %>
-<%@ page import="mg.models.Achat" %>
+<%@ page import="mg.models.Genre" %>
+<%@ page import="mg.models.Client" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
     List<Produit> listProduit = (List<Produit>) request.getAttribute("listProduit");
-    List<Fournisseur> listFournisseur = (List<Fournisseur>) request.getAttribute("listFournisseur");
-    List<Matiere_premiere> listMatPrem = (List<Matiere_premiere>) request.getAttribute("listMatPrem");
-    List<Achat> stock = (List<Achat>) request.getAttribute("stock");
+    List<Client> listClient = (List<Client>) request.getAttribute("listClient");
 %>
 
-<%@include file="layout/header.jsp"%>
+<%@include file="./layout/header.jsp"%>
 
 <main class="container">
-    <h3>Achat de matiere premiere :</h3><hr>
-    <form method="post" action="insert-achat-servlet">
+    <h3>Insertion Vente : </h3><hr>
+    <form method="post" action="insert-vente-servlet">
         <div class="row">
             <div class="col">
-                <label>Fournisseur : </label>
-                <select class="form-select" name="fournisseur" required>
-                    <option selected>Choose fournisseur</option>
-                    <% for (int i = 0; i < listFournisseur.size(); i++) { %>
-                    <option value="<%=listFournisseur.get(i).getId_fournisseur()%>"><%=listFournisseur.get(i).getNom()%></option>
+                <label>Produit :</label>
+                <select class="form-select" name="produit" required>
+                    <option selected>Choose produit</option>
+                    <% for (int i = 0; i < listProduit.size(); i++) { %>
+                    <option value="<%=listProduit.get(i).getId_produit()%>"><%=listProduit.get(i).getNom()%></option>
                     <% } %>
                 </select>
             </div>
             <div class="col">
-                <label>Matiere premiere : </label>
-                <select class="form-select" name="matprem" required>
-                    <option selected>Choose matiere premiere</option>
-                    <% for (int i = 0; i < listMatPrem.size(); i++) { %>
-                    <option value="<%=listMatPrem.get(i).getId_matiere_premiere()%>"><%=listMatPrem.get(i).getNom()%></option>
+                <label>Client :</label>
+                <select class="form-select" name="client" required>
+                    <option selected>Choose client</option>
+                    <% for (int i = 0; i < listClient.size(); i++) { %>
+                    <option value="<%=listClient.get(i).getId_client()%>"><%=listClient.get(i).getNom()%> | <%=listClient.get(i).getPrenom()%></option>
                     <% } %>
                 </select>
             </div>
             <div class="col">
-                <label>Quantite : </label>
-                <input class="form-control" placeholder="Quantite..." name="qte" type="number" required>
+                <label>Quantite :</label>
+                <input class="form-control" type="number" placeholder="Nombre..." name="nombre" required>
             </div>
-        </div>
-        <br>
+
+        </div><br>
         <button class="btn btn-success">Valider</button>
-    </form><hr>
-    <h4>Etat de stock :</h4><hr>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Matiere premiere</th>
-            <th>Quantite</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% if (stock != null) { for (int i = 0; i < stock.size(); i++) { %>
-        <tr>
-            <td><%=stock.get(i).getMat_prem()%></td>
-            <td><%=stock.get(i).getQte()%></td>
-        </tr>
-        <% } } %>
-        </tbody>
-    </table>
+    </form>
     <form method="get" action="details-produit-servlet">
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -88,4 +68,4 @@
     </form>
 </main>
 
-<%@include file="layout/footer.jsp"%>
+<%@include file="./layout/footer.jsp"%>
