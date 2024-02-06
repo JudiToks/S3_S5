@@ -6,7 +6,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import mg.models.*;
 
 import java.io.IOException;
@@ -14,8 +13,8 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "venteServlet", value = "/vente-servlet")
-public class VenteServlet extends HttpServlet
+@WebServlet(name = "validationVenteServlet", value = "/validation-vente-servlet")
+public class ValidationVenteServlet extends HttpServlet
 {
     public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
@@ -23,23 +22,7 @@ public class VenteServlet extends HttpServlet
         {
             Connection connection = Connect.connectToPostgre();
 
-            List<Produit> listProduit = Produit.getAllProduit(connection);
-            request.setAttribute("listProduit", listProduit);
-            List<Client> listClient = Client.getAllClient(connection);
-            request.setAttribute("listClient", listClient);
-            HttpSession session = request.getSession();
-
-            int id_client = 0;
-            if (request.getParameter("client") != null)
-            {
-                id_client = Integer.parseInt(request.getParameter("client"));
-                session.setAttribute("id_client", id_client);
-            }
-            else
-            {
-                id_client = (int) session.getAttribute("id_client");
-            }
-
+            int id_client = Integer.parseInt(request.getParameter("client"));
             int id_panier = 0;
             Panier panierClient = Panier.getPanierByIdClient(connection, id_client);
             List<Details_panier> listDp = new ArrayList<>();
@@ -48,12 +31,23 @@ public class VenteServlet extends HttpServlet
                 id_panier = panierClient.getId_panier();
                 listDp = Details_panier.getDetailsPanierClient(connection, id_panier);
             }
-            request.setAttribute("listDp", listDp);
+            for (int i = 0; i < listDp.size(); i++)
+            {
+                List<Matiere_premiere> list = Matiere_premiere.getMatierePremiereByIdProduit(connection, listDp.get(i).getId_produit());
+                for (int j = 0; j < listDp.size(); j++)
+                {
+                    Sortie sortie = new Sortie();
+                    sortie.setId_mat_prem(list.get(j).getId_matiere_premiere());
+                    sortie.setQte(list.get(j).getQte() * listDp.get(i).getQuantite());
+                    sortie.insert(connection);
+                }
+            }
+            Panier.updateEtat(connection, id_panier);
 
             connection.close();
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("vente.jsp");
-            dispatcher.forward(request, response);
+            response.sendRedirect("vente-servlet");
+
         }
         catch (Exception e)
         {

@@ -6,10 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import mg.models.Connect;
-import mg.models.Meuble;
-import mg.models.Produit;
-import mg.models.Style;
+import mg.models.*;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -26,6 +23,8 @@ public class ProduitServlet extends HttpServlet
             Connection connection = Connect.connectToPostgre();
             List<Produit> listProduit = Produit.getAllProduit(connection);
             request.setAttribute("listProduit", listProduit);
+            List<Client> listClient = Client.getAllClient(connection);
+            request.setAttribute("listClient", listClient);
 
             List<Style> listStyle = Style.getAllStyle(connection);
             List<Meuble> listMeuble = Meuble.getAllMeuble(connection);

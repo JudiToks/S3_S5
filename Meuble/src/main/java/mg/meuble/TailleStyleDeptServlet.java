@@ -28,6 +28,8 @@ public class TailleStyleDeptServlet extends HttpServlet
             request.setAttribute("listStyle", listStyle);
             List<Dept> listDept = Dept.getAllDept(connection);
             request.setAttribute("listDept", listDept);
+            List<Client> listClient = Client.getAllClient(connection);
+            request.setAttribute("listClient", listClient);
 
             connection.close();
             RequestDispatcher dispatcher = request.getRequestDispatcher("tailleStyleDeptServlet.jsp");

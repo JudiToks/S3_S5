@@ -23,6 +23,8 @@ public class AchatServlet extends HttpServlet
 
             List<Produit> listProduit = Produit.getAllProduit(connection);
             request.setAttribute("listProduit", listProduit);
+            List<Client> listClient = Client.getAllClient(connection);
+            request.setAttribute("listClient", listClient);
 
             List<Fournisseur> listFournisseur = Fournisseur.getAllFournisseur(connection);
             List<Matiere_premiere> listMatPrem = Matiere_premiere.getAllMatierePremiere(connection);

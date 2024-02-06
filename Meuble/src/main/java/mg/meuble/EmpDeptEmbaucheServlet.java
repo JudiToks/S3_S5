@@ -6,10 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import mg.models.Connect;
-import mg.models.Emp_dept;
-import mg.models.Produit;
-import mg.models.Profil;
+import mg.models.*;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -30,6 +27,8 @@ public class EmpDeptEmbaucheServlet extends HttpServlet
             request.setAttribute("listEmpDept", listEmpDept);
             List<Profil> listProfil = Profil.getAllProfil(connection);
             request.setAttribute("listProfil", listProfil);
+            List<Client> listClient = Client.getAllClient(connection);
+            request.setAttribute("listClient", listClient);
 
             connection.close();
             RequestDispatcher dispatcher = request.getRequestDispatcher("empDeptEmbauche.jsp");

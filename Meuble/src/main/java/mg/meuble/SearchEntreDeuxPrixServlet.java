@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import mg.models.Client;
 import mg.models.Produit;
 import mg.models.ResultRechercheEntreDeuxPrix;
 import mg.models.ResultRechercheMatPrem;
@@ -23,6 +24,8 @@ public class SearchEntreDeuxPrixServlet extends HttpServlet
         {
             List<Produit> listProduit = Produit.getAllProduit(null);
             request.setAttribute("listProduit", listProduit);
+            List<Client> listClient = Client.getAllClient(null);
+            request.setAttribute("listClient", listClient);
 
             double prix1 = Double.parseDouble(request.getParameter("prixun"));
             double prix2 = Double.parseDouble(request.getParameter("prixdeux"));

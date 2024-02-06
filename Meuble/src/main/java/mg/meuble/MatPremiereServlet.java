@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import mg.models.Client;
 import mg.models.Matiere_premiere;
 import mg.models.Produit;
 
@@ -21,6 +22,8 @@ public class MatPremiereServlet extends HttpServlet
         request.setAttribute("listProduit", listProduit);
         List<Matiere_premiere> listMatPrem = Matiere_premiere.getAllMatierePremiere(null);
         request.setAttribute("listMatPrem", listMatPrem);
+        List<Client> listClient = Client.getAllClient(null);
+        request.setAttribute("listClient", listClient);
         RequestDispatcher dispatcher = request.getRequestDispatcher("matprem.jsp");
         dispatcher.forward(request, response);
     }
