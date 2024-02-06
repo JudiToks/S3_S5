@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import mg.models.Client;
 import mg.models.CompositionStyle;
 import mg.models.Connect;
 import mg.models.Produit;
@@ -23,6 +24,8 @@ public class ResultCompositionStyleServlet extends HttpServlet
         Connection connection = Connect.connectToPostgre();
         List<Produit> listProduit = Produit.getAllProduit(connection);
         request.setAttribute("listProduit", listProduit);
+        List<Client> listClient = Client.getAllClient(connection);
+        request.setAttribute("listClient", listClient);
 
         int id_style = Integer.parseInt(request.getParameter("style"));
         CompositionStyle compoStyle = CompositionStyle.getCompositionStyle(connection, id_style);

@@ -26,6 +26,8 @@ public class StatistiqueVenteServlet extends HttpServlet
 
             List<Produit> listProduit = Produit.getAllProduit(connection);
             request.setAttribute("listProduit", listProduit);
+            List<Client> listClient = Client.getAllClient(connection);
+            request.setAttribute("listClient", listClient);
 
 
             List<StatistiqueVente> temp = StatistiqueVente.getAllStatistique(connection);

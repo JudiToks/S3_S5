@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import mg.models.Client;
 import mg.models.Meuble;
 import mg.models.Produit;
 
@@ -21,6 +22,8 @@ public class MeubleServlet extends HttpServlet
         request.setAttribute("listProduit", listProduit);
         List<Meuble> listMeuble = Meuble.getAllMeuble(null);
         request.setAttribute("listMeuble", listMeuble);
+        List<Client> listClient = Client.getAllClient(null);
+        request.setAttribute("listClient", listClient);
         RequestDispatcher dispatcher = request.getRequestDispatcher("meuble.jsp");
         dispatcher.forward(request, response);
     }

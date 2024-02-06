@@ -53,14 +53,15 @@ public class StatistiqueVente
                 "    p.id_produit,\n" +
                 "    p.nom AS nom_produit,\n" +
                 "    g.nom AS nom_genre,\n" +
-                "    sum(nbr) AS nombre_ventes\n" +
+                "    sum(qte) AS nombre_ventes\n" +
                 "FROM\n" +
-                "    vente v\n" +
-                "        JOIN produit p ON v.id_produit = p.id_produit\n" +
-                "        JOIN client c ON v.id_client = c.id_client\n" +
+                "    details_panier dp\n" +
+                "        JOIN panier on dp.id_panier = panier.id_panier\n" +
+                "        JOIN produit p ON dp.id_produit = p.id_produit\n" +
+                "        JOIN client c ON panier.id_client = c.id_client\n" +
                 "        JOIN genre g ON c.id_genre = g.id_genre\n" +
                 "GROUP BY\n" +
-                "    p.id_produit, g.id_genre, nbr\n" +
+                "    p.id_produit, g.id_genre, qte\n" +
                 "ORDER BY\n" +
                 "    p.id_produit, g.id_genre;";
         try
@@ -123,14 +124,15 @@ public class StatistiqueVente
                 "    SELECT\n" +
                 "        g.id_genre,\n" +
                 "        g.nom,\n" +
-                "        sum(nbr) AS nombre_ventes\n" +
+                "        sum(qte) AS nombre_ventes\n" +
                 "    FROM\n" +
-                "        vente v\n" +
-                "            JOIN produit p ON v.id_produit = p.id_produit\n" +
-                "            JOIN client c ON v.id_client = c.id_client\n" +
+                "        details_panier dp\n" +
+                "            JOIN panier on panier.id_panier = dp.id_panier\n" +
+                "            JOIN produit p ON dp.id_produit = p.id_produit\n" +
+                "            JOIN client c ON panier.id_client = c.id_client\n" +
                 "            JOIN genre g ON c.id_genre = g.id_genre\n" +
                 "    GROUP BY\n" +
-                "        g.id_genre, nbr\n" +
+                "        g.id_genre, qte\n" +
                 "    ORDER BY\n" +
                 "        g.id_genre\n" +
                 ")\n" +

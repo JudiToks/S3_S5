@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import mg.models.Client;
 import mg.models.Connect;
 import mg.models.Genre;
 import mg.models.Produit;
@@ -27,6 +28,8 @@ public class ClientServlet extends HttpServlet
             request.setAttribute("listProduit", listProduit);
             List<Genre> listGenre = Genre.getAllGenre(connection);
             request.setAttribute("listGenre", listGenre);
+            List<Client> listClient = Client.getAllClient(connection);
+            request.setAttribute("listClient", listClient);
 
             connection.close();
 

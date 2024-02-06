@@ -122,7 +122,7 @@ public class Client
         }
         catch (Exception e)
         {
-            System.out.println("Dept getAllDept issues");
+            System.out.println("Client getAllClient issues");
             e.printStackTrace();
         }
         return valiny;

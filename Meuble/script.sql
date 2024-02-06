@@ -126,11 +126,16 @@ create table client(
     dtn date,
     id_genre int references genre(id_genre)
 );
-create table vente(
-    id_vente serial primary key,
-    id_produit int references produit(id_produit),
+create table panier(
+    id_panier serial primary key,
     id_client int references client(id_client),
-    nbr int
+    etat int
+);
+create table details_panier(
+    id_details_panier serial primary key,
+    id_panier int references panier(id_panier),
+    id_produit int references produit(id_produit),
+    qte int
 );
 -- fin 25/01/2024
 
@@ -277,14 +282,15 @@ SELECT
     p.id_produit,
     p.nom AS nom_produit,
     g.nom AS nom_genre,
-    sum(nbr) AS nombre_ventes
+    sum(qte) AS nombre_ventes
 FROM
-    vente v
-        JOIN produit p ON v.id_produit = p.id_produit
-        JOIN client c ON v.id_client = c.id_client
+    details_panier dp
+        JOIN panier on dp.id_panier = panier.id_panier
+        JOIN produit p ON dp.id_produit = p.id_produit
+        JOIN client c ON panier.id_client = c.id_client
         JOIN genre g ON c.id_genre = g.id_genre
 GROUP BY
-    p.id_produit, g.id_genre, nbr
+    p.id_produit, g.id_genre, qte
 ORDER BY
     p.id_produit, g.id_genre;
 
@@ -293,14 +299,15 @@ with list_genre_nbr as (
     SELECT
         g.id_genre,
         g.nom,
-        sum(nbr) AS nombre_ventes
+        sum(qte) AS nombre_ventes
     FROM
-        vente v
-            JOIN produit p ON v.id_produit = p.id_produit
-            JOIN client c ON v.id_client = c.id_client
+        details_panier dp
+            JOIN panier on panier.id_panier = dp.id_panier
+            JOIN produit p ON dp.id_produit = p.id_produit
+            JOIN client c ON panier.id_client = c.id_client
             JOIN genre g ON c.id_genre = g.id_genre
     GROUP BY
-        g.id_genre, nbr
+        g.id_genre, qte
     ORDER BY
         g.id_genre
 )
@@ -319,3 +326,11 @@ select
     stock_actuel
 from v_etat_stock ves
     join matiere_premiere mp on ves.id_matiere_premiere = mp.id_matiere_premiere;
+
+
+select
+    nom,
+    qte
+from details_panier
+    join produit p on details_panier.id_produit = p.id_produit
+where id_panier = 1;

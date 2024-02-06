@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import mg.models.*;
 
 import java.io.IOException;
+import java.security.cert.PolicyNode;
 import java.sql.Connection;
 import java.util.List;
 
@@ -26,7 +27,6 @@ public class InsertVenteServlet extends HttpServlet
             int nombre = Integer.parseInt(request.getParameter("nombre"));
 
             List<Fabrication> listFabrication = Fabrication.getPresFabrication(connection, id_produit, nombre);
-            System.out.println("taille : "+listFabrication.size());
             for (Fabrication fabrication : listFabrication)
             {
                 if (fabrication.getDisponibilite().contains("Tsy ampy"))
@@ -39,20 +39,25 @@ public class InsertVenteServlet extends HttpServlet
                 }
                 else
                 {
-                    Vente temp = new Vente();
-                    temp.setId_produit(id_produit);
-                    temp.setId_client(id_client);
-                    temp.setNombre(nombre);
-                    temp.insert(connection);
-
-                    List<Matiere_premiere> list = Matiere_premiere.getMatierePremiereByIdProduit(connection, id_produit);
-                    for (int i = 0; i < list.size(); i++)
+                    int id_panier = 0;
+                    Panier panierClient = Panier.getPanierByIdClient(connection, id_client);
+                    if (panierClient.getId_panier() != 0)
                     {
-                        Sortie sortie = new Sortie();
-                        sortie.setId_mat_prem(list.get(i).getId_matiere_premiere());
-                        sortie.setQte(list.get(i).getQte() * nombre);
-                        sortie.insert(connection);
+                        id_panier = panierClient.getId_panier();
                     }
+                    else
+                    {
+                        Panier tempPan = new Panier();
+                        tempPan.setId_client(id_client);
+                        tempPan.insert(connection);
+                        Panier panierClient1 = Panier.getPanierByIdClient(connection, id_client);
+                        id_panier = panierClient1.getId_panier();
+                    }
+                    Details_panier dp = new Details_panier();
+                    dp.setId_panier(id_panier);
+                    dp.setId_produit(id_produit);
+                    dp.setQuantite(nombre);
+                    dp.insert(connection);
 
                     response.sendRedirect("vente-servlet");
                     break;

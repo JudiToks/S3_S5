@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import mg.models.Client;
 import mg.models.Produit;
 
 import java.io.IOException;
@@ -20,6 +21,8 @@ public class RechercheEntreDeuxPrixServlet extends HttpServlet
         {
             List<Produit> listProduit = Produit.getAllProduit(null);
             request.setAttribute("listProduit", listProduit);
+            List<Client> listClient = Client.getAllClient(null);
+            request.setAttribute("listClient", listClient);
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("rechercheEntreDeuxPrix.jsp");
             dispatcher.forward(request, response);

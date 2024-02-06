@@ -23,6 +23,8 @@ public class DetailsProduitServlet extends HttpServlet
             Connection connection = Connect.connectToPostgre();
             List<Produit> listProduit = Produit.getAllProduit(connection);
             request.setAttribute("listProduit", listProduit);
+            List<Client> listClient = Client.getAllClient(connection);
+            request.setAttribute("listClient", listClient);
 
             int id_produit = Integer.parseInt(request.getParameter("produit"));
             Produit produit = Produit.getProduitById(connection, id_produit);

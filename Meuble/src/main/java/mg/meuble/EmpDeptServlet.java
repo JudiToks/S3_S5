@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import mg.models.Client;
 import mg.models.Dept;
 import mg.models.Emp;
 import mg.models.Produit;
@@ -26,6 +27,8 @@ public class EmpDeptServlet extends HttpServlet
             request.setAttribute("listEmp", listEmp);
             List<Dept> listDept = Dept.getAllDept(null);
             request.setAttribute("listDept", listDept);
+            List<Client> listClient = Client.getAllClient(null);
+            request.setAttribute("listClient", listClient);
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("employeeDepartement.jsp");
             dispatcher.forward(request, response);

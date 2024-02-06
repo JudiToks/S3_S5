@@ -20,6 +20,7 @@
       <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
     </div>
   </form>
+  <a style="margin-right: 1%" class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal1"><i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i></a>
   <%--  <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">--%>
   <%--    <li class="nav-item dropdown">--%>
   <%--      <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>--%>
@@ -114,7 +115,6 @@
             <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages4">
               <a class="nav-link" href="genre-servlet">Genre</a>
               <a class="nav-link" href="client-servlet">Client</a>
-              <a class="nav-link" href="vente-servlet">Vente</a>
               <a class="nav-link" href="statistique-vente-servlet">Statistique de vente</a>
             </nav>
           </div>

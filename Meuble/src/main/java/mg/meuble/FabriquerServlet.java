@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import mg.models.Client;
 import mg.models.Fabrication;
 import mg.models.Produit;
 
@@ -19,6 +20,8 @@ public class FabriquerServlet extends HttpServlet
     {
         List<Produit> listProduit = Produit.getAllProduit(null);
         request.setAttribute("listProduit", listProduit);
+        List<Client> listClient = Client.getAllClient(null);
+        request.setAttribute("listClient", listClient);
 
         int id_produit = Integer.parseInt(request.getParameter("produit"));
         double qte = Double.parseDouble(request.getParameter("qte"));
