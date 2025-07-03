@@ -4,17 +4,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Taille
+public class Emp
 {
-    int id_taille;
+    int id_emp;
     String nom;
 
-    public int getId_taille() {
-        return id_taille;
+    public int getId_emp() {
+        return id_emp;
     }
 
-    public void setId_taille(int id_taille) {
-        this.id_taille = id_taille;
+    public void setId_emp(int id_emp) {
+        this.id_emp = id_emp;
     }
 
     public String getNom() {
@@ -52,11 +52,11 @@ public class Taille
         }
     }
 
-    public static List<Taille> getAllTaille(Connection connection)
+    public static List<Emp> getAllEmp(Connection connection)
     {
         boolean isOuvert = false;
-        List<Taille> valiny = new ArrayList<>();
-        String query = "select * from taille order by id_taille;";
+        List<Emp> valiny = new ArrayList<>();
+        String query = "select * from emp;";
         try
         {
             if (connection == null)
@@ -68,8 +68,8 @@ public class Taille
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next())
             {
-                Taille temp = new Taille();
-                temp.setId_taille(resultSet.getInt("id_taille"));
+                Emp temp = new Emp();
+                temp.setId_emp(resultSet.getInt("id_emp"));
                 temp.setNom(resultSet.getString("nom"));
                 valiny.add(temp);
             }
@@ -82,7 +82,43 @@ public class Taille
         }
         catch (Exception e)
         {
-            System.out.println("Taille getAllTaille issues");
+            System.out.println("Emp getAllEmp issues");
+            e.printStackTrace();
+        }
+        return valiny;
+    }
+
+    public static Emp getEmpById(Connection connection, int id_emp)
+    {
+        boolean isOuvert = false;
+        Emp valiny = new Emp();
+        String query = "select * from emp where id_emp = "+id_emp+";";
+        try
+        {
+            if (connection == null)
+            {
+                connection = Connect.connectToPostgre();
+                isOuvert = true;
+            }
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next())
+            {
+                Emp temp = new Emp();
+                temp.setId_emp(resultSet.getInt(1));
+                temp.setNom(resultSet.getString(2));
+                valiny = temp;
+            }
+            resultSet.close();
+            statement.close();
+            if (isOuvert)
+            {
+                connection.close();
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("Emp getEmpById issues");
             e.printStackTrace();
         }
         return valiny;

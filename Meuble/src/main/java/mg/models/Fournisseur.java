@@ -4,17 +4,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Taille
+public class Fournisseur
 {
-    int id_taille;
+    int id_fournisseur;
     String nom;
 
-    public int getId_taille() {
-        return id_taille;
+    public int getId_fournisseur() {
+        return id_fournisseur;
     }
 
-    public void setId_taille(int id_taille) {
-        this.id_taille = id_taille;
+    public void setId_fournisseur(int id_fournisseur) {
+        this.id_fournisseur = id_fournisseur;
     }
 
     public String getNom() {
@@ -52,11 +52,11 @@ public class Taille
         }
     }
 
-    public static List<Taille> getAllTaille(Connection connection)
+    public static List<Fournisseur> getAllFournisseur(Connection connection)
     {
         boolean isOuvert = false;
-        List<Taille> valiny = new ArrayList<>();
-        String query = "select * from taille order by id_taille;";
+        List<Fournisseur> valiny = new ArrayList<>();
+        String query = "select * from fournisseur;";
         try
         {
             if (connection == null)
@@ -68,8 +68,8 @@ public class Taille
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next())
             {
-                Taille temp = new Taille();
-                temp.setId_taille(resultSet.getInt("id_taille"));
+                Fournisseur temp = new Fournisseur();
+                temp.setId_fournisseur(resultSet.getInt("id_fournisseur"));
                 temp.setNom(resultSet.getString("nom"));
                 valiny.add(temp);
             }
@@ -82,7 +82,7 @@ public class Taille
         }
         catch (Exception e)
         {
-            System.out.println("Taille getAllTaille issues");
+            System.out.println("Fournisseur getAllFournisseur issues");
             e.printStackTrace();
         }
         return valiny;

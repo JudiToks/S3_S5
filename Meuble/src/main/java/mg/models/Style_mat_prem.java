@@ -1,28 +1,23 @@
 package mg.models;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Taille
+public class Style_mat_prem
 {
-    int id_taille;
-    String nom;
+    int id_style;
+    int id_mat_premiere;
 
-    public int getId_taille() {
-        return id_taille;
+    public int getId_style() {
+        return id_style;
     }
-
-    public void setId_taille(int id_taille) {
-        this.id_taille = id_taille;
+    public void setId_style(int id_style) {
+        this.id_style = id_style;
     }
-
-    public String getNom() {
-        return nom;
+    public int getId_mat_premiere() {
+        return id_mat_premiere;
     }
-
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setId_mat_premiere(int id_mat_premiere) {
+        this.id_mat_premiere = id_mat_premiere;
     }
 
     public void insert(Connection connection) throws SQLException {
@@ -34,7 +29,7 @@ public class Taille
                 connection = Connect.connectToPostgre();
                 isOuvert = true;
             }
-            String sql = "INSERT INTO "+this.getClass().getSimpleName().toLowerCase()+" VALUES(default, '"+this.getNom()+"');";
+            String sql = "INSERT INTO "+this.getClass().getSimpleName().toLowerCase()+" VALUES (default, "+this.getId_style()+", "+this.getId_mat_premiere()+")";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.execute();
         }
@@ -52,11 +47,11 @@ public class Taille
         }
     }
 
-    public static List<Taille> getAllTaille(Connection connection)
+    public static int getIdStyleMatPremByIdStyleIdMatPrem(Connection connection, int id_style, int id_mat_premiere)
     {
+        int valiny = 0;
         boolean isOuvert = false;
-        List<Taille> valiny = new ArrayList<>();
-        String query = "select * from taille order by id_taille;";
+        String query = "select * from style_mat_prem where id_style = "+id_style+" and id_matiere_premiere = "+id_mat_premiere+";";
         try
         {
             if (connection == null)
@@ -66,12 +61,9 @@ public class Taille
             }
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
-            while (resultSet.next())
+            if (resultSet.next())
             {
-                Taille temp = new Taille();
-                temp.setId_taille(resultSet.getInt("id_taille"));
-                temp.setNom(resultSet.getString("nom"));
-                valiny.add(temp);
+                valiny = resultSet.getInt("id_style_mat_prem");
             }
             resultSet.close();
             statement.close();
@@ -82,7 +74,7 @@ public class Taille
         }
         catch (Exception e)
         {
-            System.out.println("Taille getAllTaille issues");
+            System.out.println("Style getStyleById issues");
             e.printStackTrace();
         }
         return valiny;

@@ -4,23 +4,32 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Style
+public class Matiere_premiere
 {
-    int id_style;
+    int id_matiere_premiere;
     String nom;
+    double qte;
 
 //    getters & setters
-    public int getId_style() {
-        return id_style;
+    public int getId_matiere_premiere() {
+        return id_matiere_premiere;
     }
-    public void setId_style(int id_style) {
-        this.id_style = id_style;
+    public void setId_matiere_premiere(int id_matiere_premiere) {
+        this.id_matiere_premiere = id_matiere_premiere;
     }
     public String getNom() {
         return nom;
     }
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public double getQte() {
+        return qte;
+    }
+
+    public void setQte(double qte) {
+        this.qte = qte;
     }
 
     public void insert(Connection connection) throws SQLException {
@@ -50,11 +59,11 @@ public class Style
         }
     }
 
-    public static List<Style> getAllStyle(Connection connection)
+    public static List<Matiere_premiere> getAllMatierePremiere(Connection connection)
     {
         boolean isOuvert = false;
-        List<Style> valiny = new ArrayList<>();
-        String query = "select * from style;";
+        List<Matiere_premiere> valiny = new ArrayList<>();
+        String query = "select * from matiere_premiere;";
         try
         {
             if (connection == null)
@@ -66,8 +75,8 @@ public class Style
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next())
             {
-                Style temp = new Style();
-                temp.setId_style(resultSet.getInt("id_style"));
+                Matiere_premiere temp = new Matiere_premiere();
+                temp.setId_matiere_premiere(resultSet.getInt("id_matiere_premiere"));
                 temp.setNom(resultSet.getString("nom"));
                 valiny.add(temp);
             }
@@ -80,17 +89,17 @@ public class Style
         }
         catch (Exception e)
         {
-            System.out.println("Style getAllStyle issues");
+            System.out.println("Matiere premiere getAllMatierePremiere issues");
             e.printStackTrace();
         }
         return valiny;
     }
 
-    public static Style getStyleById(Connection connection, int id_style)
+    public static Matiere_premiere getMatierePremiereById(Connection connection, int id_matiere_premiere)
     {
         boolean isOuvert = false;
-        Style valiny = new Style();
-        String query = "select * from style where id_style = "+id_style+";";
+        Matiere_premiere valiny = new Matiere_premiere();
+        String query = "select * from matiere_premiere where id_matiere_premiere = "+id_matiere_premiere+";";
         try
         {
             if (connection == null)
@@ -102,8 +111,8 @@ public class Style
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next())
             {
-                Style temp = new Style();
-                temp.setId_style(resultSet.getInt("id_style"));
+                Matiere_premiere temp = new Matiere_premiere();
+                temp.setId_matiere_premiere(resultSet.getInt("id_matiere_premiere"));
                 temp.setNom(resultSet.getString("nom"));
                 valiny = temp;
             }
@@ -116,7 +125,43 @@ public class Style
         }
         catch (Exception e)
         {
-            System.out.println("Style getStyleById issues");
+            System.out.println("Matiere premiere getMatierePremiereById issues");
+            e.printStackTrace();
+        }
+        return valiny;
+    }
+
+    public static List<Matiere_premiere> getMatierePremiereByIdProduit(Connection connection, int id_produit)
+    {
+        boolean isOuvert = false;
+        List<Matiere_premiere> valiny = new ArrayList<>();
+        String query = "select * from details_produit where id_produit = "+id_produit+";";
+        try
+        {
+            if (connection == null)
+            {
+                connection = Connect.connectToPostgre();
+                isOuvert = true;
+            }
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next())
+            {
+                Matiere_premiere temp = new Matiere_premiere();
+                temp.setId_matiere_premiere(resultSet.getInt("id_matiere_premiere"));
+                temp.setQte(resultSet.getDouble("qte"));
+                valiny.add(temp);
+            }
+            resultSet.close();
+            statement.close();
+            if (isOuvert)
+            {
+                connection.close();
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("Matiere premiere getMatierePremiereByIdProduit issues");
             e.printStackTrace();
         }
         return valiny;

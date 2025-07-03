@@ -4,17 +4,19 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Taille
+public class Profil
 {
-    int id_taille;
+    int id_profil;
     String nom;
+    double annee;
+    double coeff;
 
-    public int getId_taille() {
-        return id_taille;
+    public int getId_profil() {
+        return id_profil;
     }
 
-    public void setId_taille(int id_taille) {
-        this.id_taille = id_taille;
+    public void setId_profil(int id_profil) {
+        this.id_profil = id_profil;
     }
 
     public String getNom() {
@@ -23,6 +25,22 @@ public class Taille
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public double getAnnee() {
+        return annee;
+    }
+
+    public void setAnnee(double annee) {
+        this.annee = annee;
+    }
+
+    public double getCoeff() {
+        return coeff;
+    }
+
+    public void setCoeff(double coeff) {
+        this.coeff = coeff;
     }
 
     public void insert(Connection connection) throws SQLException {
@@ -34,7 +52,7 @@ public class Taille
                 connection = Connect.connectToPostgre();
                 isOuvert = true;
             }
-            String sql = "INSERT INTO "+this.getClass().getSimpleName().toLowerCase()+" VALUES(default, '"+this.getNom()+"');";
+            String sql = "INSERT INTO "+this.getClass().getSimpleName().toLowerCase()+" VALUES(default, '"+this.getNom()+"', "+this.getAnnee()+", "+this.getCoeff()+");";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.execute();
         }
@@ -52,11 +70,11 @@ public class Taille
         }
     }
 
-    public static List<Taille> getAllTaille(Connection connection)
+    public static List<Profil> getAllProfil(Connection connection)
     {
         boolean isOuvert = false;
-        List<Taille> valiny = new ArrayList<>();
-        String query = "select * from taille order by id_taille;";
+        List<Profil> valiny = new ArrayList<>();
+        String query = "select * from profil;";
         try
         {
             if (connection == null)
@@ -68,9 +86,11 @@ public class Taille
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next())
             {
-                Taille temp = new Taille();
-                temp.setId_taille(resultSet.getInt("id_taille"));
-                temp.setNom(resultSet.getString("nom"));
+                Profil temp = new Profil();
+                temp.setId_profil(resultSet.getInt(1));
+                temp.setNom(resultSet.getString(2));
+                temp.setAnnee(resultSet.getDouble(3));
+                temp.setCoeff(resultSet.getDouble(4));
                 valiny.add(temp);
             }
             resultSet.close();
@@ -82,7 +102,7 @@ public class Taille
         }
         catch (Exception e)
         {
-            System.out.println("Taille getAllTaille issues");
+            System.out.println("Profil getAllProfil issues");
             e.printStackTrace();
         }
         return valiny;
